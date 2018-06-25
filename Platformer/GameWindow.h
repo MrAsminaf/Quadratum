@@ -1,0 +1,26 @@
+#pragma once
+
+#include<SFML/Graphics.hpp>
+#include"MapFileLoader.h"
+#include"TextureManager.h"
+#include"MapRenderer.h"
+#include<vector>
+#define DEBUG
+
+class GameWindow
+{
+public:
+	GameWindow();
+	GameWindow(const sf::Vector2i& size, const std::string& window_title);
+	void RunGameLoop();
+
+private:
+	void HandleWindowEvents();
+	void Render();
+
+private:
+	sf::RenderWindow m_gameWindow;
+	MapFileLoader m_mapFileLoader;
+	TextureManager m_textureManager;
+	MapRenderer m_mapRenderer;
+};
