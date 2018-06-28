@@ -76,6 +76,7 @@ void Player::Collision(const std::vector<std::string>& map)
 	else
 		m_isTouchingGround = false;
 
+
 	if (map.at(y - 1).at(x) != ' ' && m_playerObject.getPosition().y - 8 < ((y - 1) * 16) + 16 ||
 		(map.at(y - 1).at(x) == ' ' && map.at(y - 1).at(x + 1) != ' ' && m_playerObject.getPosition().x + 8 > (x + 1) * 16 && m_playerObject.getPosition().y - 8 < ((y - 1) * 16) + 16) ||
 		(map.at(y - 1).at(x) == ' ' && map.at(y - 1).at(x - 1) != ' ' && m_playerObject.getPosition().x - 8 < ((x - 1) * 16) + 16 && m_playerObject.getPosition().y - 8 < ((y - 1) * 16) + 16))  // hitting ceiling
@@ -83,8 +84,13 @@ void Player::Collision(const std::vector<std::string>& map)
 		m_verticalVelocity = -m_verticalVelocity;
 	}
 
+	/* Below if statement explained:
+		Line 1: if there's no block to the left... 
+		Line 2: if there's no block where player is standing and neither above, but is at bottom left and player isn't touching the ground...
+		Line 3: if there's no block where player is standing and neither above and to the left, but is at top left... */
+
 	if (map.at(y).at(x - 1) != ' ' ||
-		(map.at(y).at(x) == ' ' && map.at(y + 1).at(x) == ' ' && map.at(y + 1).at(x - 1) != ' '/* && m_playerObject.getPosition().x - 8 < ((x-1)*16)+16 && m_playerObject.getPosition().y+8 > (y+1)*16*/) ||
+		(map.at(y).at(x) == ' ' && map.at(y + 1).at(x) == ' ' && map.at(y + 1).at(x - 1) != ' ' && m_isTouchingGround == false) ||
 		(map.at(y).at(x) == ' ' && map.at(y - 1).at(x) == ' ' && map.at(y).at(x - 1) == ' ' && map.at(y - 1).at(x - 1) != ' ' /*&& m_playerObject.getPosition().x - 8 < ((x - 1) * 16) + 16 && m_playerObject.getPosition().y - 8 < ((y - 1) * 16) + 16*/))
 	{
 		if ((x - 1) * 16 >= m_playerObject.getPosition().x - 24)
@@ -95,7 +101,9 @@ void Player::Collision(const std::vector<std::string>& map)
 	else
 		m_isHittingLeftWall = false;
 
-	if (map.at(y).at(x + 1) != ' ')
+	if (map.at(y).at(x + 1) != ' ' ||
+		(map.at(y).at(x) == ' ' && map.at(y + 1).at(x) == ' ' && map.at(y + 1).at(x + 1) != ' ' && m_isTouchingGround == false) ||
+		(map.at(y).at(x) == ' ' && map.at(y - 1).at(x) == ' ' && map.at(y).at(x + 1) == ' ' && map.at(y - 1).at(x + 1) != ' '))
 	{
 		if ((x + 1) * 16 <= m_playerObject.getPosition().x + 8)
 		{
