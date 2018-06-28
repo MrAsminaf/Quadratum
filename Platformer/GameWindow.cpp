@@ -21,6 +21,8 @@ void GameWindow::RunGameLoop()
 	{
 		HandleWindowEvents();
 		Render();
+		Input();
+		Update();
 	}
 }
 
@@ -37,6 +39,21 @@ void GameWindow::HandleWindowEvents()
 void GameWindow::Render()
 {
 	m_gameWindow.clear();
-	m_gameWindow.draw(m_mapRenderer.GetMapObject());
+	m_gameWindow.draw(m_mapRenderer.GetMapObject(), m_textureManager.GetRenderStates());
+	m_gameWindow.draw(m_player);
 	m_gameWindow.display();
+}
+
+void GameWindow::Input()
+{
+	m_player.Controls();
+}
+
+void GameWindow::Update()
+{
+	m_player.UpdateGravity();
+	m_player.Collision(m_mapFileLoader.GetLevelOneMap());
+
+	m_camera.GetView().setCenter(m_player.GetPlayerObject().getPosition().x, 16*16+8);
+	m_gameWindow.setView(m_camera.GetView());
 }

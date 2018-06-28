@@ -2,15 +2,14 @@
 
 void TextureManager::LoadTextures(const std::string & filename, const int size)
 {
-	sf::Texture tempTexture;
-	if (!tempTexture.loadFromFile(filename))
+	if (!m_rawTexture.loadFromFile(filename))
 	{
 		std::cerr << "Could not open " << filename << std::endl;
 		return;
 	}
 	
-	const int columns = tempTexture.getSize().x / 16;
-	const int rows = tempTexture.getSize().y / 16;
+	const int columns = m_rawTexture.getSize().x / 16;
+	const int rows = m_rawTexture.getSize().y / 16;
 
 	std::cout << columns << " " << rows << std::endl;
 
@@ -23,9 +22,15 @@ void TextureManager::LoadTextures(const std::string & filename, const int size)
 			m_textures.push_back(texture);
 		}
 	}
+	m_renderStates.texture = &m_rawTexture;
 }
 
 std::vector<sf::Texture>& TextureManager::GetTextures()
 {
 	return m_textures;
+}
+
+sf::RenderStates & TextureManager::GetRenderStates()
+{
+	return m_renderStates;
 }

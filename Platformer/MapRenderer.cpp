@@ -4,7 +4,7 @@
 
 MapRenderer::MapRenderer()
 	:
-	m_mapObject(sf::Quads, 500)
+	m_mapObject(sf::Quads, 50000)
 {
 }
 
@@ -18,12 +18,18 @@ void MapRenderer::CreateRenderObject(const std::vector<std::string>& textMapFile
 	{
 		for (const auto& entity : line)
 		{
-			if (entity == '1')
+			if (entity != ' ')
 			{
 				ptr->position = sf::Vector2f(float(BlocksInfo::blockWidth*column), float(BlocksInfo::blockHeight * row));
 				(ptr + 1)->position = sf::Vector2f(float(BlocksInfo::blockWidth*(column + 1)), float(BlocksInfo::blockHeight * row));
 				(ptr + 2)->position = sf::Vector2f(float(BlocksInfo::blockWidth*(column + 1)), float(BlocksInfo::blockHeight * (row + 1)));
 				(ptr + 3)->position = sf::Vector2f(float(BlocksInfo::blockWidth*column), float(BlocksInfo::blockHeight * (row + 1)));
+
+				int blockNumber = (entity - '0') - 1;
+				ptr->texCoords = sf::Vector2f(blockNumber * 16, 0);
+				(ptr + 1)->texCoords = sf::Vector2f((blockNumber + 1) * 16, 0);
+				(ptr + 2)->texCoords = sf::Vector2f((blockNumber + 1) * 16, 16);
+				(ptr + 3)->texCoords = sf::Vector2f(blockNumber * 16, 16);
 
 				ptr += 4;
 			}
