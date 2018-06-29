@@ -6,6 +6,7 @@
 #include"MapRenderer.h"
 #include"Player.h"
 #include"Camera.h"
+#include"Enemy.h"
 #include<vector>
 #define DEBUG
 
@@ -21,6 +22,7 @@ private:
 	void Render();
 	void Input();
 	void Update();
+	void InitEnemies();
 
 private:
 	sf::RenderWindow m_gameWindow;
@@ -29,4 +31,6 @@ private:
 	MapRenderer m_mapRenderer;
 	Player m_player;
 	Camera m_camera;
+
+	std::vector<Enemy> m_enemiesList;
 };

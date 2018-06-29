@@ -70,7 +70,6 @@ void Player::Collision(const std::vector<std::string>& map)
 		if ((y + 1) * 16 <= m_playerObject.getPosition().y + 8)
 		{
 			m_isTouchingGround = true;
-			std::cout << "Ground" << std::endl;
 		}
 	}
 	else

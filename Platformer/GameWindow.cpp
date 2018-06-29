@@ -4,6 +4,7 @@ GameWindow::GameWindow()
 	:
 	GameWindow(sf::Vector2i(1200, 700), "Platformer")
 {
+	InitEnemies();
 }
 
 GameWindow::GameWindow(const sf::Vector2i& size, const std::string & window_title)
@@ -17,6 +18,7 @@ GameWindow::GameWindow(const sf::Vector2i& size, const std::string & window_titl
 
 void GameWindow::RunGameLoop()
 {
+
 	while (m_gameWindow.isOpen())
 	{
 		HandleWindowEvents();
@@ -41,6 +43,10 @@ void GameWindow::Render()
 	m_gameWindow.clear();
 	m_gameWindow.draw(m_mapRenderer.GetMapObject(), m_textureManager.GetRenderStates());
 	m_gameWindow.draw(m_player);
+
+	for (auto& enemy : m_enemiesList)
+		m_gameWindow.draw(enemy.GetObject());
+
 	m_gameWindow.display();
 }
 
@@ -56,4 +62,17 @@ void GameWindow::Update()
 
 	m_camera.GetView().setCenter(m_player.GetPlayerObject().getPosition().x, 16*16+8);
 	m_gameWindow.setView(m_camera.GetView());
+}
+
+void GameWindow::InitEnemies()
+{
+	const auto number_of_enemies = m_mapFileLoader.GetEnemyPositions().size();
+	std::cout << "Number of enemies: " << number_of_enemies << std::endl;
+
+	for (const sf::Vector2i& enemy_position : m_mapFileLoader.GetEnemyPositions())
+	{
+		Enemy enemy_obj(enemy_position);
+		m_enemiesList.push_back(enemy_obj);
+		std::cout << enemy_position.x  << " " << enemy_position.y << std::endl;
+	};
 }

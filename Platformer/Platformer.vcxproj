@@ -126,6 +126,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="GameWindow.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MapFileLoader.cpp" />
@@ -136,6 +137,7 @@
   <ItemGroup>
     <ClInclude Include="BlocksInfo.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="GameWindow.h" />
     <ClInclude Include="MapFileLoader.h" />
     <ClInclude Include="MapRenderer.h" />
