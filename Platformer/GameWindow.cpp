@@ -62,6 +62,9 @@ void GameWindow::Update()
 
 	m_camera.GetView().setCenter(m_player.GetPlayerObject().getPosition().x, 16*16+8);
 	m_gameWindow.setView(m_camera.GetView());
+
+	for (auto& enemy : m_enemiesList)
+		enemy.Update(m_mapFileLoader.GetLevelOneMap());
 }
 
 void GameWindow::InitEnemies()
