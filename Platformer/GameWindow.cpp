@@ -2,7 +2,7 @@
 
 GameWindow::GameWindow()
 	:
-	GameWindow(sf::Vector2i(1200, 700), "Platformer")
+	GameWindow(sf::Vector2i(WindowWidth, WindowHeight), "Platformer")
 {
 	InitEnemies();
 }
@@ -21,6 +21,8 @@ void GameWindow::RunGameLoop()
 
 	while (m_gameWindow.isOpen())
 	{
+		//sf::Time delta_time = m_deltaTimeClock.restart();
+
 		HandleWindowEvents();
 		Render();
 		Input();
@@ -47,6 +49,8 @@ void GameWindow::Render()
 	for (auto& enemy : m_enemiesList)
 		m_gameWindow.draw(enemy.GetObject());
 
+	m_gameWindow.draw(m_ui);
+
 	m_gameWindow.display();
 }
 
@@ -60,11 +64,13 @@ void GameWindow::Update()
 	m_player.UpdateGravity();
 	m_player.Collision(m_mapFileLoader.GetLevelOneMap());
 
-	m_camera.GetView().setCenter(m_player.GetPlayerObject().getPosition().x, 16*16+8);
+	m_camera.GetView().setCenter(m_player.GetPlayerObject().getPosition().x, 16*15);
 	m_gameWindow.setView(m_camera.GetView());
 
 	for (auto& enemy : m_enemiesList)
 		enemy.Update(m_mapFileLoader.GetLevelOneMap());
+
+	m_ui.Update(m_gameWindow);
 }
 
 void GameWindow::InitEnemies()
