@@ -1,6 +1,6 @@
-#include "TextureManager.h"
+#include "TerrainTextureManager.h"
 
-void TextureManager::LoadTextures(const std::string & filename, const int size)
+void TerrainTextureManager::LoadTextures(const std::string & filename, const int size)
 {
 	if (!m_rawTexture.loadFromFile(filename))
 	{
@@ -25,12 +25,12 @@ void TextureManager::LoadTextures(const std::string & filename, const int size)
 	m_renderStates.texture = &m_rawTexture;
 }
 
-std::vector<sf::Texture>& TextureManager::GetTextures()
+std::vector<sf::Texture>& TerrainTextureManager::GetTextures()
 {
 	return m_textures;
 }
 
-sf::RenderStates & TextureManager::GetRenderStates()
+sf::RenderStates & TerrainTextureManager::GetRenderStates()
 {
 	return m_renderStates;
 }

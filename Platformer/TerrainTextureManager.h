@@ -4,10 +4,10 @@
 #include<vector>
 #include<iostream>
 
-class TextureManager
+class TerrainTextureManager
 {
 public:
-	TextureManager() = default;
+	TerrainTextureManager() = default;
 	void LoadTextures(const std::string& filename, const int size);
 	std::vector<sf::Texture>& GetTextures();
 	sf::RenderStates& GetRenderStates();

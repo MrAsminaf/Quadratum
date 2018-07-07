@@ -21,11 +21,11 @@ void GameWindow::RunGameLoop()
 
 	while (m_gameWindow.isOpen())
 	{
-		//sf::Time delta_time = m_deltaTimeClock.restart();
+		m_deltaTime = m_deltaTimeClock.restart();
 
 		HandleWindowEvents();
 		Render();
-		Input();
+		Input(m_deltaTime);
 		Update();
 	}
 }
@@ -50,19 +50,17 @@ void GameWindow::Render()
 		m_gameWindow.draw(enemy.GetObject());
 
 	m_gameWindow.draw(m_ui);
-
 	m_gameWindow.display();
 }
 
-void GameWindow::Input()
+void GameWindow::Input(const sf::Time& delta_time)
 {
-	m_player.Controls();
+	m_player.Controls(delta_time);
 }
 
 void GameWindow::Update()
 {
-	m_player.UpdateGravity();
-	m_player.Collision(m_mapFileLoader.GetLevelOneMap());
+	m_player.Update(m_mapFileLoader.GetLevelOneMap(), m_deltaTime);
 
 	m_camera.GetView().setCenter(m_player.GetPlayerObject().getPosition().x, 16*15);
 	m_gameWindow.setView(m_camera.GetView());
