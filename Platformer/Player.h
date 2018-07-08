@@ -17,12 +17,14 @@ private:
 	void LoadTextures();
 	void IdleAnimation(const sf::Time& delta_time);
 	void RunAnimation();
+	void JumpAnimation();
 	void UpdateGravity();
 	void Collision(const std::vector<std::string>& map);
 private:
 	sf::Sprite m_playerObject;
 	std::vector<sf::Texture>m_idleTextures;
 	std::vector<sf::Texture>m_runTextures;
+	std::vector<sf::Texture>m_jumpTextures;
 
 	bool m_previousIsTouchingGround;
 	bool m_isTouchingGround;
@@ -41,6 +43,7 @@ private:
 
 	const float m_idleAnimationTimeInterval;
 	const float m_runAnimationTimeInterval;
+	const float m_jumpAnimationTimeInterval;
 	const sf::Vector2f m_playerScale;
 	
 	// FOR TEST //

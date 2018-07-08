@@ -14,6 +14,7 @@ Player::Player()
 	m_horizontalVelocity		(0.25f),
 	m_idleAnimationTimeInterval	(0.14f),
 	m_runAnimationTimeInterval	(0.1f),
+	m_jumpAnimationTimeInterval	(0.1f),
 	m_playerScale				(sf::Vector2f(1.5, 1.5))
 {
 	LoadTextures();
@@ -65,6 +66,11 @@ void Player::Controls(const sf::Time& delta_time)
 
 void Player::Update(const std::vector<std::string>& map, const sf::Time& delta_time)
 {
+	if (m_previousIsTouchingGround == true && m_isTouchingGround == false)
+	{
+		m_clock.restart();
+	}
+
 	m_previousIsTouchingGround = m_isTouchingGround;
 
 	UpdateGravity();
@@ -86,8 +92,11 @@ void Player::Update(const std::vector<std::string>& map, const sf::Time& delta_t
 	}
 	else if (m_isRunningRightAnimation && m_isTouchingGround)
 	{
-		//std::cout << "Yeetus that fetus" << std::endl;
 		RunAnimation();
+	}
+	else if (!m_isTouchingGround)
+	{
+		JumpAnimation();
 	}
 
 	m_previousIsRunningRight = m_isRunningRight;
@@ -199,6 +208,16 @@ void Player::LoadTextures()
 			m_runTextures.push_back(temp);
 	}
 
+	for (int i = 0; i < 6; i++)
+	{
+		sf::Texture temp;
+		std::string filename = std::string("jump_").append(std::to_string(i)) + ".png";
+		if (!temp.loadFromFile(std::string("Animations/Character/Jump/" + filename)))
+			std::cerr << "Could not load character texture" << std::endl;
+		else
+			m_jumpTextures.push_back(temp);
+	}
+
 	m_playerObject.setTexture(m_idleTextures[0]);
 	m_playerObject.setPosition(30, 30);
 	m_playerObject.setScale(m_playerScale);
@@ -260,5 +279,31 @@ void Player::RunAnimation()
 	else if (time.asSeconds() > m_runAnimationTimeInterval * 5 && time.asSeconds() < m_runAnimationTimeInterval * 6)
 	{
 		m_playerObject.setTexture(m_runTextures.at(5));
+	}
+}
+
+void Player::JumpAnimation()
+{
+	sf::Time time = m_clock.getElapsedTime();
+
+	if (m_verticalVelocity < 0)
+		m_playerObject.setTexture(m_jumpTextures.at(0));
+	else if (m_verticalVelocity > 0)
+	{
+		if (time.asSeconds() > m_jumpAnimationTimeInterval * 3)
+			m_clock.restart();
+
+		if (time.asSeconds() > 0 && time.asSeconds() < m_jumpAnimationTimeInterval)
+		{
+			m_playerObject.setTexture(m_jumpTextures.at(1));
+		}
+		else if (time.asSeconds() > m_jumpAnimationTimeInterval && time.asSeconds() < m_jumpAnimationTimeInterval * 2)
+		{
+			m_playerObject.setTexture(m_jumpTextures.at(2));
+		}
+		else if (time.asSeconds() > m_jumpAnimationTimeInterval * 2 && time.asSeconds() < m_jumpAnimationTimeInterval * 3)
+		{
+			m_playerObject.setTexture(m_jumpTextures.at(3));
+		}
 	}
 }
