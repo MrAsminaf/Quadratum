@@ -80,6 +80,5 @@ void GameWindow::InitEnemies()
 	{
 		Enemy enemy_obj(enemy_position);
 		m_enemiesList.push_back(enemy_obj);
-		std::cout << enemy_position.x  << " " << enemy_position.y << std::endl;
 	};
 }
