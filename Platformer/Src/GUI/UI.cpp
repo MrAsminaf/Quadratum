@@ -21,7 +21,7 @@ void UI::draw(sf::RenderTarget & target, sf::RenderStates states) const
 
 void UI::InitHealth()
 {
-	if (!m_heartTexture.loadFromFile("darker_heart.png"))
+	if (!m_heartTexture.loadFromFile("Res/darker_heart.png"))
 		std::cerr << "Could not open darker_heart.png" << std::endl;
 
 	int heart_id_count = 0;

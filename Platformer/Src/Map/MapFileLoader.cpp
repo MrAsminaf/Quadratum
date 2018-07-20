@@ -2,9 +2,12 @@
 
 void MapFileLoader::LoadLevel(const std::string & filename)
 {
-	inputStream.open(filename);
+	inputStream.open("Maps/" + filename);
 	if (!inputStream)
+	{
 		std::cerr << "Could not open " << filename << std::endl;
+		return;
+	}
 
 	std::string line; // temporary std::string object for reading each line in txt file
 	int current_row = 0; // variables for tracking current row and column analyzed by loading process

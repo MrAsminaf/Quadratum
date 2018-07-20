@@ -1,8 +1,8 @@
 #pragma once
 
-#include"BlocksInfo.h"
-#include<SFML/Graphics.hpp>
-#include<vector>
+#include "Texture/BlocksInfo.h"
+#include <SFML/Graphics.hpp>
+#include <vector>
 
 class MapRenderer
 {

@@ -2,7 +2,7 @@
 
 void TerrainTextureManager::LoadTextures(const std::string & filename, const int size)
 {
-	if (!m_rawTexture.loadFromFile(filename))
+	if (!m_rawTexture.loadFromFile("Res/" + filename))
 	{
 		std::cerr << "Could not open " << filename << std::endl;
 		return;
@@ -10,7 +10,7 @@ void TerrainTextureManager::LoadTextures(const std::string & filename, const int
 	
 	const int columns = m_rawTexture.getSize().x / 16;
 	const int rows = m_rawTexture.getSize().y / 16;
-
+	
 	std::cout << columns << " " << rows << std::endl;
 
 	for (int y = 0; y < rows; ++y)
@@ -18,7 +18,7 @@ void TerrainTextureManager::LoadTextures(const std::string & filename, const int
 		for (int x = 0; x < columns; ++x)
 		{
 			sf::Texture texture;
-			texture.loadFromFile(filename, sf::IntRect(x*size, y*size, size, size));
+			texture.loadFromFile("Res/" + filename, sf::IntRect(x*size, y*size, size, size));
 			m_textures.push_back(texture);
 		}
 	}

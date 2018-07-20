@@ -1,9 +1,9 @@
 #pragma once
 
-#include<SFML/Graphics.hpp>
-#include<vector>
-#include<iostream>
-#include<string>
+#include <SFML/Graphics.hpp>
+#include <vector>
+#include <iostream>
+#include <string>
 
 class Player : public sf::Drawable
 {

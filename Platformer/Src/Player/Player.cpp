@@ -192,7 +192,7 @@ void Player::LoadTextures()
 	{
 		sf::Texture temp;
 		std::string filename = std::string("idle_").append(std::to_string(i)) + ".png";
-		if (!temp.loadFromFile(std::string("Animations/Character/Idle/" + filename)))
+		if (!temp.loadFromFile(std::string("Res/Animations/Character/Idle/" + filename)))
 			std::cerr << "Could not load character texture" << std::endl;
 		else
 			m_idleTextures.push_back(temp);
@@ -202,7 +202,7 @@ void Player::LoadTextures()
 	{
 		sf::Texture temp;
 		std::string filename = std::string("run_").append(std::to_string(i)) + ".png";
-		if (!temp.loadFromFile(std::string("Animations/Character/Run/" + filename)))
+		if (!temp.loadFromFile(std::string("Res/Animations/Character/Run/" + filename)))
 			std::cerr << "Could not load character texture" << std::endl;
 		else
 			m_runTextures.push_back(temp);
@@ -212,7 +212,7 @@ void Player::LoadTextures()
 	{
 		sf::Texture temp;
 		std::string filename = std::string("jump_").append(std::to_string(i)) + ".png";
-		if (!temp.loadFromFile(std::string("Animations/Character/Jump/" + filename)))
+		if (!temp.loadFromFile(std::string("Res/Animations/Character/Jump/" + filename)))
 			std::cerr << "Could not load character texture" << std::endl;
 		else
 			m_jumpTextures.push_back(temp);

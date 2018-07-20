@@ -1,15 +1,15 @@
 #pragma once
 
-#include<SFML/Graphics.hpp>
-#include"Window_info.h"
-#include"MapFileLoader.h"
-#include"TerrainTextureManager.h"
-#include"MapRenderer.h"
-#include"Player.h"
-#include"Camera.h"
-#include"Enemy.h"
-#include"UI.h"
-#include<vector>
+#include <SFML/Graphics.hpp>
+#include "Window_info.h"
+#include "Map/MapFileLoader.h"
+#include "Texture/TerrainTextureManager.h"
+#include "Map/MapRenderer.h"
+#include "Player/Player.h"
+#include "GUI/Camera.h"
+#include "Enemies/Enemy.h"
+#include "GUI/UI.h"
+#include <vector>
 #define DEBUG
 
 class GameWindow

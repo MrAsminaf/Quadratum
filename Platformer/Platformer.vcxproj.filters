@@ -15,64 +15,124 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp">
+    <ClCompile Include="Src\Window\GameWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameWindow.cpp">
+    <ClCompile Include="Src\Window\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MapFileLoader.cpp">
+    <ClCompile Include="Src\GUI\UI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MapRenderer.cpp">
+    <ClCompile Include="Src\GUI\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
+    <ClCompile Include="Src\Enemies\Enemy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
+    <ClCompile Include="Src\Player\Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy.cpp">
+    <ClCompile Include="Src\Map\MapFileLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UI.cpp">
+    <ClCompile Include="Src\Map\MapRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TerrainTextureManager.cpp">
+    <ClCompile Include="Src\Texture\TerrainTextureManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GameWindow.h">
+    <ClInclude Include="Src\Window\Window_info.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MapFileLoader.h">
+    <ClInclude Include="Src\Window\GameWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MapRenderer.h">
+    <ClInclude Include="Src\GUI\UI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BlocksInfo.h">
+    <ClInclude Include="Src\GUI\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
+    <ClInclude Include="Src\Enemies\Enemy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h">
+    <ClInclude Include="Src\Player\Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy.h">
+    <ClInclude Include="Src\Map\MapFileLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="UI.h">
+    <ClInclude Include="Src\Map\MapRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Window_info.h">
+    <ClInclude Include="Src\Texture\BlocksInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TerrainTextureManager.h">
+    <ClInclude Include="Src\Texture\TerrainTextureManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Res\tileset.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Res\Animations\Character\Idle\idle_0.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Res\Animations\Character\Idle\idle_1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Res\Animations\Character\Idle\idle_2.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Res\Animations\Character\Idle\idle_3.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Res\Animations\Character\Jump\jump_0.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Res\Animations\Character\Jump\jump_1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Res\Animations\Character\Jump\jump_2.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Res\Animations\Character\Jump\jump_3.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Res\Animations\Character\Jump\jump_4.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Res\Animations\Character\Jump\jump_5.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Res\Animations\Character\Run\run_0.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Res\Animations\Character\Run\run_1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Res\Animations\Character\Run\run_2.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Res\Animations\Character\Run\run_3.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Res\Animations\Character\Run\run_4.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Res\Animations\Character\Run\run_5.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Res\darker_heart.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Maps\platformer.txt" />
+    <Text Include="Maps\test.txt" />
   </ItemGroup>
 </Project>

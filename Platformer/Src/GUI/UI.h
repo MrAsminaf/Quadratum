@@ -1,8 +1,8 @@
 #pragma once
-#include"Window_info.h"
-#include<array>
-#include<iostream>
-#include<SFML/Graphics.hpp>
+#include "Window/Window_info.h"
+#include <array>
+#include <iostream>
+#include <SFML/Graphics.hpp>
 
 struct Heart
 {
