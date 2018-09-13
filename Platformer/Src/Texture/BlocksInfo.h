@@ -8,11 +8,10 @@ namespace BlocksInfo
 
 namespace BlockID
 {
-	const char grass					= '1';
-	const char dirt						= '2';
-	const char grass_topLeftDownRight	= '3';
-	const char grass_downLeftTopRight	= '4';
-	const char stone					= '5';
-	const char dirt_downLeftTopRight	= '6';
-	const char dirt_topLeftDownRight	= '7';
+	const char terrain_platform_left	= '0';
+	const char terrain_platform_center	= '1';
+	const char terrain_platform_right	= '2';
+	const char terrain_top_left			= '3';
+	const char terrain_top_center		= '4';
+	const char terrain_top_right		= '5';
 }

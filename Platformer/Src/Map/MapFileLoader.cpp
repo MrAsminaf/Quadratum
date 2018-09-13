@@ -22,15 +22,14 @@ void MapFileLoader::LoadLevel(const std::string & filename)
 				m_enemyPositions.push_back(sf::Vector2i(current_column, current_row));
 				letter = ' '; // after getting enemy position, reset the current letter to normal state
 			}
-			else if (prev_letter == ' ' && letter == '5')
+			/*else if (prev_letter == ' ' && letter == '1')
 			{
-				//std::cout << "2" << std::endl;
 				letter = '6';
 			}
-			else if (prev_letter == '5' && letter == ' ')
+			else if (prev_letter == '1' && letter == ' ')
 			{
 				*(&letter - 1) = '7';
-			}
+			}*/
 
 			++current_column;
 			prev_letter = letter;

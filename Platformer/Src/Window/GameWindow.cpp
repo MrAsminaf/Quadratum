@@ -13,7 +13,7 @@ GameWindow::GameWindow(const sf::Vector2i& size, const std::string & window_titl
 {
 	m_mapFileLoader.LoadLevel("platformer.txt");
 	m_textureManager.LoadTextures("tileset.png", 16);
-	m_mapRenderer.CreateRenderObject(m_mapFileLoader.GetLevelOneMap());
+	m_mapRenderer.InitMap(m_mapFileLoader.GetLevelOneMap());
 }
 
 void GameWindow::RunGameLoop()
@@ -42,7 +42,7 @@ void GameWindow::HandleWindowEvents()
 
 void GameWindow::Render()
 {
-	m_gameWindow.clear();
+	m_gameWindow.clear(sf::Color(41, 41, 41));
 	m_gameWindow.draw(m_mapRenderer.GetMapObject(), m_textureManager.GetRenderStates());
 	m_gameWindow.draw(m_player);
 
