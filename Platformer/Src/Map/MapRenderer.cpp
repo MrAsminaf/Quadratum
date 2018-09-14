@@ -20,7 +20,8 @@ void MapRenderer::InitMap(const std::vector<std::string>& textMapFile)
 		{
 			if (letter != ' ')
 			{
-				int blockNumber = letter - '0';
+				//int blockNumber = letter - '0';
+				int blockNumber = letter - 'a';
 				SetPosition(row, column, ptr);
 				SetTexture(blockNumber, ptr);
 				ptr += 4;
