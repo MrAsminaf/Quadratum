@@ -18,14 +18,6 @@ Player::Player()
 	m_playerScale				(sf::Vector2f(1.5, 1.5))
 {
 	LoadTextures();
-	
-	// FOR TEST //
-	left.setSize(sf::Vector2f(16, 16));
-	left.setFillColor(sf::Color(255, 0, 0, 100));
-	right.setSize(sf::Vector2f(16, 16));
-	right.setFillColor(sf::Color(255, 0, 0, 100));
-	top.setSize(sf::Vector2f(16, 16));
-	top.setFillColor(sf::Color(255, 0, 0, 100));
 }
 
 void Player::Controls(const sf::Time& delta_time)
@@ -82,7 +74,7 @@ void Player::Update(const std::vector<std::string>& map, const sf::Time& delta_t
 	}
 	else if (m_previousIsRunningRight == false && m_isRunningRight == true)
 	{
-		m_testClock.restart();
+		m_clock.restart();
 		m_isRunningRightAnimation = true;
 	}
 
@@ -117,10 +109,6 @@ void Player::Collision(const std::vector<std::string>& map)
 {
 	const int x = m_playerObject.getPosition().x / 16;
 	const int y = m_playerObject.getPosition().y / 16;
-
-	//left.setPosition((x - 1) * 16, y*16);
-	//right.setPosition((x + 1) * 16, y * 16);
-	//top.setPosition((x) * 16, (y - 1) * 16);
 
 	if (map.at(y + 1).at(x) != ' ' ||
 		(map.at(y + 1).at(x + 1) != ' ' && m_playerObject.getPosition().x + 8 > (x + 1) * 16) ||
@@ -176,9 +164,6 @@ void Player::Collision(const std::vector<std::string>& map)
 void Player::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
 	target.draw(m_playerObject, states);
-	target.draw(left, states);
-	target.draw(right, states);
-	target.draw(top, states);
 }
 
 sf::Sprite & Player::GetPlayerObject()
@@ -243,18 +228,14 @@ void Player::IdleAnimation(const sf::Time& delta_time)
 	{
 		m_playerObject.setTexture(m_idleTextures.at(2));
 	}
-	/*else if (time.asSeconds() > m_idleAnimationTimeInterval * 3 && time.asSeconds() < m_idleAnimationTimeInterval * 4)
-	{
-		m_playerObject.setTexture(m_idleTextures.at(3));
-	}*/
 }
 
 void Player::RunAnimation()
 {
-	sf::Time time = m_testClock.getElapsedTime();
+	sf::Time time = m_clock.getElapsedTime();
 
 	if (time.asSeconds() > m_runAnimationTimeInterval * 6)
-		m_testClock.restart();
+		m_clock.restart();
 
 	if (time.asSeconds() > 0 && time.asSeconds() < m_runAnimationTimeInterval)
 	{

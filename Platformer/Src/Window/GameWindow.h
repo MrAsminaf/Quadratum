@@ -9,6 +9,7 @@
 #include "GUI/Camera.h"
 #include "Enemies/Enemy.h"
 #include "GUI/UI.h"
+#include "Background/Background.h"
 #include <vector>
 #define DEBUG
 
@@ -35,6 +36,7 @@ private:
 	Player m_player;
 	Camera m_camera;
 	UI m_ui;
+	Background m_background;
 	sf::Time m_deltaTime;
 	std::vector<Enemy> m_enemiesList;
 };

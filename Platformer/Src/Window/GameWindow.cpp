@@ -43,6 +43,7 @@ void GameWindow::HandleWindowEvents()
 void GameWindow::Render()
 {
 	m_gameWindow.clear(sf::Color(41, 41, 41));
+	m_gameWindow.draw(m_background);
 	m_gameWindow.draw(m_mapRenderer.GetMapObject(), m_textureManager.GetRenderStates());
 	m_gameWindow.draw(m_player);
 
@@ -61,6 +62,7 @@ void GameWindow::Input(const sf::Time& delta_time)
 void GameWindow::Update()
 {
 	m_player.Update(m_mapFileLoader.GetLevelOneMap(), m_deltaTime);
+	m_background.Update(m_gameWindow);
 
 	m_camera.GetView().setCenter(m_player.GetPlayerObject().getPosition().x, 16*15);
 	m_gameWindow.setView(m_camera.GetView());

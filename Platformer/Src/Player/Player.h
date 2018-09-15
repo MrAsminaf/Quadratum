@@ -39,15 +39,9 @@ private:
 	float m_verticalVelocity;
 	const float m_horizontalVelocity;
 	sf::Clock m_clock;
-	sf::Clock m_testClock;
 
 	const float m_idleAnimationTimeInterval;
 	const float m_runAnimationTimeInterval;
 	const float m_jumpAnimationTimeInterval;
 	const sf::Vector2f m_playerScale;
-	
-	// FOR TEST //
-	sf::RectangleShape left;
-	sf::RectangleShape right;
-	sf::RectangleShape top;
 };
