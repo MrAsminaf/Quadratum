@@ -7,7 +7,7 @@ class Background : public sf::Drawable
 public:
 	Background();
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-	void Update(const sf::RenderWindow& window);
+	void Update(const sf::RenderWindow& window, const float playerHorizontalVelocity);
 private:
 	sf::Texture m_skyTexture;
 	sf::Sprite m_skySprite;

@@ -39,4 +39,6 @@ private:
 	Background m_background;
 	sf::Time m_deltaTime;
 	std::vector<Enemy> m_enemiesList;
+
+	float m_playerHorizontalVelocity;
 };

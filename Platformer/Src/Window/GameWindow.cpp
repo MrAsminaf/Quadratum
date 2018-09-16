@@ -56,13 +56,13 @@ void GameWindow::Render()
 
 void GameWindow::Input(const sf::Time& delta_time)
 {
-	m_player.Controls(delta_time);
+	 m_playerHorizontalVelocity = m_player.Controls(delta_time);
 }
 
 void GameWindow::Update()
 {
 	m_player.Update(m_mapFileLoader.GetLevelOneMap(), m_deltaTime);
-	m_background.Update(m_gameWindow);
+	m_background.Update(m_gameWindow, m_playerHorizontalVelocity);
 
 	m_camera.GetView().setCenter(m_player.GetPlayerObject().getPosition().x, 16*15);
 	m_gameWindow.setView(m_camera.GetView());

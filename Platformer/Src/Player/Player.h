@@ -9,7 +9,7 @@ class Player : public sf::Drawable
 {
 public:
 	Player();
-	void Controls(const sf::Time& delta_time);
+	float Controls(const sf::Time& delta_time);
 	void Update(const std::vector<std::string>& map, const sf::Time& delta_time);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	sf::Sprite& GetPlayerObject();
@@ -44,6 +44,4 @@ private:
 	const float m_runAnimationTimeInterval;
 	const float m_jumpAnimationTimeInterval;
 	const sf::Vector2f m_playerScale;
-
-	sf::RectangleShape s1, s2, s3;
 };

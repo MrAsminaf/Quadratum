@@ -18,25 +18,19 @@ Player::Player()
 	m_playerScale				(sf::Vector2f(1.5, 1.5))
 {
 	LoadTextures();
-
-	s1.setSize(sf::Vector2f(16, 16));
-	s1.setFillColor(sf::Color(255, 0, 0, 125));
-	s2.setSize(sf::Vector2f(16, 16));
-	s2.setFillColor(sf::Color(255, 0, 0, 125));
-	s3.setSize(sf::Vector2f(16, 16));
-	s3.setFillColor(sf::Color(255, 0, 0, 125));
-	
 }
 
-void Player::Controls(const sf::Time& delta_time)
+float Player::Controls(const sf::Time& delta_time)
 {
 	m_isRunningRight = false;
 	m_isIdle = false;
 
+	float currentSpeed = 0;
 	if(!m_isHittingLeftWall)
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		{
 			m_playerObject.move(sf::Vector2f(-m_horizontalVelocity * delta_time.asMilliseconds(), 0));
+			currentSpeed = -m_horizontalVelocity * delta_time.asMilliseconds();
 
 			if (m_playerObject.getScale() == m_playerScale)
 				m_playerObject.setScale(sf::Vector2f(-m_playerScale.x, m_playerScale.y));
@@ -46,6 +40,7 @@ void Player::Controls(const sf::Time& delta_time)
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		{
 			m_playerObject.move(sf::Vector2f(m_horizontalVelocity * delta_time.asMilliseconds(), 0));
+			currentSpeed = m_horizontalVelocity * delta_time.asMilliseconds();
 
 			if (m_playerObject.getScale() == sf::Vector2f(-m_playerScale.x, m_playerScale.y))
 				m_playerObject.setScale(m_playerScale);
@@ -62,6 +57,8 @@ void Player::Controls(const sf::Time& delta_time)
 
 	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::A) && !sf::Keyboard::isKeyPressed(sf::Keyboard::D) && m_isTouchingGround)
 		m_isIdle = true;
+
+	return currentSpeed;
 }
 
 void Player::Update(const std::vector<std::string>& map, const sf::Time& delta_time)
@@ -118,10 +115,6 @@ void Player::Collision(const std::vector<std::string>& map)
 	const int x = m_playerObject.getPosition().x / 16;
 	const int y = m_playerObject.getPosition().y / 16;
 
-	s1.setPosition((x - 1) * 16, y * 16);
-	s2.setPosition((x + 1) * 16, y * 16);
-	s3.setPosition(x * 16, (y - 1) * 16);
-
 	if (map.at(y + 1).at(x) != ' ' ||
 		(map.at(y + 1).at(x + 1) != ' ' && m_playerObject.getPosition().x + 8 > (x + 1) * 16) ||
 		(map.at(y + 1).at(x - 1) != ' ' && m_playerObject.getPosition().x - 8 < x * 16))
@@ -170,10 +163,6 @@ void Player::Collision(const std::vector<std::string>& map)
 void Player::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
 	target.draw(m_playerObject, states);
-
-	target.draw(s1, states);
-	target.draw(s2, states);
-	target.draw(s3, states);
 }
 
 sf::Sprite & Player::GetPlayerObject()
