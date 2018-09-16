@@ -18,7 +18,7 @@ private:
 	void IdleAnimation(const sf::Time& delta_time);
 	void RunAnimation();
 	void JumpAnimation();
-	void UpdateGravity();
+	void UpdateGravity(const sf::Time& delta_time);
 	void Collision(const std::vector<std::string>& map);
 private:
 	sf::Sprite m_playerObject;
@@ -44,4 +44,6 @@ private:
 	const float m_runAnimationTimeInterval;
 	const float m_jumpAnimationTimeInterval;
 	const sf::Vector2f m_playerScale;
+
+	sf::RectangleShape s1, s2, s3;
 };

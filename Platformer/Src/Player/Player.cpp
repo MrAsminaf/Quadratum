@@ -11,13 +11,21 @@ Player::Player()
 	m_isHittingRightWall		(false),
 	m_isIdle					(false),
 	m_verticalVelocity			(0),
-	m_horizontalVelocity		(0.25f),
+	m_horizontalVelocity		(0.17f),
 	m_idleAnimationTimeInterval	(0.14f),
 	m_runAnimationTimeInterval	(0.1f),
 	m_jumpAnimationTimeInterval	(0.1f),
 	m_playerScale				(sf::Vector2f(1.5, 1.5))
 {
 	LoadTextures();
+
+	s1.setSize(sf::Vector2f(16, 16));
+	s1.setFillColor(sf::Color(255, 0, 0, 125));
+	s2.setSize(sf::Vector2f(16, 16));
+	s2.setFillColor(sf::Color(255, 0, 0, 125));
+	s3.setSize(sf::Vector2f(16, 16));
+	s3.setFillColor(sf::Color(255, 0, 0, 125));
+	
 }
 
 void Player::Controls(const sf::Time& delta_time)
@@ -28,7 +36,7 @@ void Player::Controls(const sf::Time& delta_time)
 	if(!m_isHittingLeftWall)
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		{
-			m_playerObject.move(sf::Vector2f(-m_horizontalVelocity, 0));
+			m_playerObject.move(sf::Vector2f(-m_horizontalVelocity * delta_time.asMilliseconds(), 0));
 
 			if (m_playerObject.getScale() == m_playerScale)
 				m_playerObject.setScale(sf::Vector2f(-m_playerScale.x, m_playerScale.y));
@@ -37,7 +45,7 @@ void Player::Controls(const sf::Time& delta_time)
 	if(!m_isHittingRightWall)
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		{
-			m_playerObject.move(sf::Vector2f(m_horizontalVelocity, 0));
+			m_playerObject.move(sf::Vector2f(m_horizontalVelocity * delta_time.asMilliseconds(), 0));
 
 			if (m_playerObject.getScale() == sf::Vector2f(-m_playerScale.x, m_playerScale.y))
 				m_playerObject.setScale(m_playerScale);
@@ -65,7 +73,7 @@ void Player::Update(const std::vector<std::string>& map, const sf::Time& delta_t
 
 	m_previousIsTouchingGround = m_isTouchingGround;
 
-	UpdateGravity();
+	UpdateGravity(delta_time);
 	Collision(map);
 
 	if (m_previousIsTouchingGround == false && m_isTouchingGround == true) 
@@ -94,11 +102,11 @@ void Player::Update(const std::vector<std::string>& map, const sf::Time& delta_t
 	m_previousIsRunningRight = m_isRunningRight;
 }
 
-void Player::UpdateGravity()
+void Player::UpdateGravity(const sf::Time& delta_time)
 {
 	if (m_isTouchingGround == false)
 	{
-		m_verticalVelocity += 0.005f;
+		m_verticalVelocity += 0.003f * delta_time.asMilliseconds();
 		m_playerObject.move(0, m_verticalVelocity);
 	}
 	else
@@ -109,6 +117,10 @@ void Player::Collision(const std::vector<std::string>& map)
 {
 	const int x = m_playerObject.getPosition().x / 16;
 	const int y = m_playerObject.getPosition().y / 16;
+
+	s1.setPosition((x - 1) * 16, y * 16);
+	s2.setPosition((x + 1) * 16, y * 16);
+	s3.setPosition(x * 16, (y - 1) * 16);
 
 	if (map.at(y + 1).at(x) != ' ' ||
 		(map.at(y + 1).at(x + 1) != ' ' && m_playerObject.getPosition().x + 8 > (x + 1) * 16) ||
@@ -130,16 +142,11 @@ void Player::Collision(const std::vector<std::string>& map)
 		m_verticalVelocity = -m_verticalVelocity;
 	}
 
-	/* Below if statement explained:
-		Line 1: if there's no block to the left... 
-		Line 2: if there's no block where player is standing and neither above, but is at bottom left and player isn't touching the ground...
-		Line 3: if there's no block where player is standing and neither above and to the left, but is at top left... */
-
 	if (map.at(y).at(x - 1) != ' ' ||
 		(map.at(y).at(x) == ' ' && map.at(y + 1).at(x) == ' ' && map.at(y + 1).at(x - 1) != ' ' && m_isTouchingGround == false) ||
 		(map.at(y).at(x) == ' ' && map.at(y - 1).at(x) == ' ' && map.at(y).at(x - 1) == ' ' && map.at(y - 1).at(x - 1) != ' '))
 	{
-		if ((x - 1) * 16 >= m_playerObject.getPosition().x - 24)
+		if ((x - 1) * 16 >= m_playerObject.getPosition().x - 28)
 		{
 			m_isHittingLeftWall = true;
 		}
@@ -151,19 +158,22 @@ void Player::Collision(const std::vector<std::string>& map)
 		(map.at(y).at(x) == ' ' && map.at(y + 1).at(x) == ' ' && map.at(y + 1).at(x + 1) != ' ' && m_isTouchingGround == false) ||
 		(map.at(y).at(x) == ' ' && map.at(y - 1).at(x) == ' ' && map.at(y).at(x + 1) == ' ' && map.at(y - 1).at(x + 1) != ' '))
 	{
-		if ((x + 1) * 16 <= m_playerObject.getPosition().x + 8)
+		if ((x + 1) * 16 <= m_playerObject.getPosition().x + 10)
 		{
 			m_isHittingRightWall = true;
 		}
 	}
 	else 
 		m_isHittingRightWall = false;
-
 }
 
 void Player::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
 	target.draw(m_playerObject, states);
+
+	target.draw(s1, states);
+	target.draw(s2, states);
+	target.draw(s3, states);
 }
 
 sf::Sprite & Player::GetPlayerObject()
