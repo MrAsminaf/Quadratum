@@ -141,6 +141,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Src\Background\Background.cpp" />
+    <ClCompile Include="Src\Background\Clouds.cpp" />
     <ClCompile Include="Src\GUI\Camera.cpp" />
     <ClCompile Include="Src\Enemies\Enemy.cpp" />
     <ClCompile Include="Src\Window\GameWindow.cpp" />
@@ -153,6 +154,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Background\Background.h" />
+    <ClInclude Include="Src\Background\Clouds.h" />
     <ClInclude Include="Src\Texture\BlocksInfo.h" />
     <ClInclude Include="Src\GUI\Camera.h" />
     <ClInclude Include="Src\Enemies\Enemy.h" />

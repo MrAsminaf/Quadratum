@@ -2,6 +2,8 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "Clouds.h"
+
 class Background : public sf::Drawable
 {
 public:
@@ -17,4 +19,6 @@ private:
 	sf::Sprite m_closeMountainsSprite;
 	sf::Texture m_grassTexture;
 	sf::Sprite m_grassSprite;
+
+	Clouds m_clouds;
 };

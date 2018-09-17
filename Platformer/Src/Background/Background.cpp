@@ -29,6 +29,8 @@ void Background::draw(sf::RenderTarget & target, sf::RenderStates states) const
 	target.draw(m_farMountainsSprite, states);
 	target.draw(m_closeMountainsSprite, states);
 	target.draw(m_grassSprite, states);
+
+	target.draw(m_clouds, states);
 }
 
 void Background::Update(const sf::RenderWindow& window, float playerHorizontalVelocity)
@@ -44,4 +46,7 @@ void Background::Update(const sf::RenderWindow& window, float playerHorizontalVe
 
 	m_grassSprite.setPosition(m_grassSprite.getPosition().x, pos.y);
 	m_grassSprite.move(playerHorizontalVelocity / 1.20, 0);
+
+	m_clouds.Update();
+	m_clouds.GetCloud().move(playerHorizontalVelocity / 1.05, 0);
 }
