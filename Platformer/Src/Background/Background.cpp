@@ -29,7 +29,6 @@ void Background::draw(sf::RenderTarget & target, sf::RenderStates states) const
 	target.draw(m_farMountainsSprite, states);
 	target.draw(m_closeMountainsSprite, states);
 	target.draw(m_grassSprite, states);
-
 	target.draw(m_clouds, states);
 }
 
