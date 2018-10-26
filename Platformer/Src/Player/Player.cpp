@@ -4,9 +4,6 @@ Player::Player()
 	:
 	m_previousIsTouchingGround	(false),
 	m_isTouchingGround			(false),
-	m_previousIsRunningRight	(false),
-	m_isRunningRight			(false),
-	m_isRunningRightAnimation	(false),
 	m_isHittingLeftWall			(false),
 	m_isHittingRightWall		(false),
 	m_isIdle					(false),
@@ -22,7 +19,6 @@ Player::Player()
 
 float Player::Controls(const sf::Time& delta_time)
 {
-	m_isRunningRight = false;
 	m_isIdle = false;
 
 	float currentSpeed = 0;
@@ -44,8 +40,6 @@ float Player::Controls(const sf::Time& delta_time)
 
 			if (m_playerObject.getScale() == sf::Vector2f(-m_playerScale.x, m_playerScale.y))
 				m_playerObject.setScale(m_playerScale);
-
-			m_isRunningRight = true;
 		}
 
 	if(m_isTouchingGround)
@@ -63,47 +57,23 @@ float Player::Controls(const sf::Time& delta_time)
 
 void Player::Update(const std::vector<std::string>& map, const sf::Time& delta_time)
 {
-	if (m_previousIsTouchingGround == true && m_isTouchingGround == false)
-	{
-		m_clock.restart();
-	}
-
 	m_previousIsTouchingGround = m_isTouchingGround;
-
 	UpdateGravity(delta_time);
 	Collision(map);
 
-	if (m_previousIsTouchingGround == false && m_isTouchingGround == true) 
-	{
-		m_clock.restart();
-	}
-	else if (m_previousIsRunningRight == false && m_isRunningRight == true)
-	{
-		m_clock.restart();
-		m_isRunningRightAnimation = true;
-	}
-
 	if (m_isIdle)
-	{
 		IdleAnimation(delta_time);
-	}
-	else if (m_isRunningRightAnimation && m_isTouchingGround)
-	{
+	else if (m_isTouchingGround)
 		RunAnimation();
-	}
 	else if (!m_isTouchingGround)
-	{
 		JumpAnimation();
-	}
-
-	m_previousIsRunningRight = m_isRunningRight;
 }
 
 void Player::UpdateGravity(const sf::Time& delta_time)
 {
 	if (m_isTouchingGround == false)
 	{
-		m_verticalVelocity += 0.003f * delta_time.asMilliseconds();
+		m_verticalVelocity += 0.0027f * delta_time.asMilliseconds();
 		m_playerObject.move(0, m_verticalVelocity);
 	}
 	else

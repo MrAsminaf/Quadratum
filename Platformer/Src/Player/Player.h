@@ -29,10 +29,6 @@ private:
 	bool m_previousIsTouchingGround;
 	bool m_isTouchingGround;
 
-	bool m_previousIsRunningRight;
-	bool m_isRunningRight;
-	bool m_isRunningRightAnimation;
-
 	bool m_isHittingLeftWall;
 	bool m_isHittingRightWall;
 	bool m_isIdle;
