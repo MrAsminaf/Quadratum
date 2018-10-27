@@ -1,6 +1,6 @@
 # Quadratum
 
-Quadratum is a 2D arcade-style platformer made in C++ using [SFML](https://www.sfml-dev.org/).
+Quadratum is a 2D arcade-style platformer made in C++ using [SFML](https://www.sfml-dev.org/). It's a fun side project and still in very early stage of development.
 
 ![alt text](https://github.com/MrAsminaf/Quadratum/blob/master/screenshot.png)
 
