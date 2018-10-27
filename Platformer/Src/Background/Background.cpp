@@ -26,10 +26,10 @@ Background::Background()
 void Background::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
 	target.draw(m_skySprite, states);
+	target.draw(m_clouds, states);
 	target.draw(m_farMountainsSprite, states);
 	target.draw(m_closeMountainsSprite, states);
 	target.draw(m_grassSprite, states);
-	target.draw(m_clouds, states);
 }
 
 void Background::Update(const sf::RenderWindow& window, float playerHorizontalVelocity)
@@ -47,5 +47,6 @@ void Background::Update(const sf::RenderWindow& window, float playerHorizontalVe
 	m_grassSprite.move(playerHorizontalVelocity / 1.20, 0);
 
 	m_clouds.Update();
-	m_clouds.GetCloud().move(playerHorizontalVelocity / 1.05, 0);
+	for (int i = 0; i < m_clouds.GetTotalNumberOfClouds(); ++i)
+		m_clouds.GetCloud(i).move(playerHorizontalVelocity / 1.05, 0);
 }

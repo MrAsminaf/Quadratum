@@ -1,45 +1,93 @@
 #include "Clouds.h"
+#include <random>
 
-// Fixes to make:
-//	- clouds are not displaying properly - they show up as white rectangles
+
+// Console I/O and <exception> for debuging purposes:
+#include <iostream>
+#include <exception>
 
 Clouds::Clouds()
 {
 	// Loads cloud one by one; there are 4 clouds in total so there are 4 loop iterations
 	for (int i = 1; i < 5; ++i)
-		LoadCloud(i);
+		LoadCloudResources(i);
 
-	// Manually setting position for clouds; only temporary
-	m_cloudSprites[0].setPosition(100, 100);
-	m_cloudSprites[1].setPosition(0, 150);
+
+	// Init clouds
+	for (int i = 0 ; i < 15; ++i)
+	{
+		Cloud cloud;
+		std::cout << m_cloudTextures.size() << std::endl;
+		cloud.sprite.setTexture(m_cloudTextures[i%4]);
+		cloud.velocity = GetRandomVelocity();
+		cloud.sprite.setPosition(GetRandomXPosition(), GetRandomYPosition());
+		m_clouds.push_back(cloud);
+	}
 }
 
 void Clouds::Update()
 {
 	// Move each cloud every frame in x-axis by some amount
-	for (auto& cloud : m_cloudSprites)
-		cloud.move(sf::Vector2f(0.005, 0));
+	for (auto& cloud : m_clouds)
+		cloud.sprite.move(sf::Vector2f(0.005, 0));
 }
 
-// Inherited function draw
+
+// Inherited function-draw
 void Clouds::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
-	for (auto& cloud : m_cloudSprites)
-		target.draw(cloud, states);
+	for (const auto& cloud : m_clouds)
+		target.draw(cloud.sprite, states);
 }
  
-sf::Sprite& Clouds::GetCloud()
+
+// Get selected cloud sprite
+sf::Sprite& Clouds::GetCloud(int index)
 {
-	return m_cloudSprites[0];
+	return m_clouds[index].sprite;
 }
 
-void Clouds::LoadCloud(int cloudNum)
+void Clouds::LoadCloudResources(int cloudNum)
 {
-	sf::Texture tempTexture;
-	tempTexture.loadFromFile("Res/Background/Clouds/cloud" + std::to_string(cloudNum) + ".png");
-	m_cloudTextures.push_back(tempTexture);
+	m_cloudTextures.at(cloudNum - 1).loadFromFile("Res/Background/Clouds/cloud" + std::to_string(cloudNum) + ".png");
+	m_cloudSprites.at(cloudNum - 1).setTexture(m_cloudTextures.at(cloudNum - 1));
+}
 
-	sf::Sprite tempSprite;
-	tempSprite.setTexture(tempTexture);
-	m_cloudSprites.push_back(tempSprite);
+
+// Function for randomizing cloud velocities
+double Clouds::GetRandomVelocity() const
+{
+	std::random_device rd;
+	std::mt19937 rng(rd());
+	std::uniform_real_distribution<> vel(0.001f, 0.01f);
+
+	return vel(rng);
+}
+
+
+// Function for randomizing cloud position in Y-axis
+int Clouds::GetRandomYPosition() const
+{
+	std::random_device rd;
+	std::mt19937 rng(rd());
+	std::uniform_int_distribution<> height(0, 250);
+
+	return height(rng);
+}
+
+// Function for randomizing cloud position in X-axi 
+int Clouds::GetRandomXPosition() const
+{
+	std::random_device rd;
+	std::mt19937 rng(rd());
+	std::uniform_int_distribution<> pos(-300, 300);
+
+	return pos(rng);
+}
+
+
+// Returns the .size() of private member: m_clouds
+int Clouds::GetTotalNumberOfClouds() const
+{
+	return m_clouds.size();
 }
