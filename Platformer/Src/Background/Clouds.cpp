@@ -1,11 +1,6 @@
 #include "Clouds.h"
 #include <random>
 
-
-// Console I/O and <exception> for debuging purposes:
-#include <iostream>
-#include <exception>
-
 Clouds::Clouds()
 {
 	// Loads cloud one by one; there are 4 clouds in total so there are 4 loop iterations
@@ -17,19 +12,28 @@ Clouds::Clouds()
 	for (int i = 0 ; i < 15; ++i)
 	{
 		Cloud cloud;
-		std::cout << m_cloudTextures.size() << std::endl;
-		cloud.sprite.setTexture(m_cloudTextures[i%4]);
-		cloud.velocity = GetRandomVelocity();
-		cloud.sprite.setPosition(GetRandomXPosition(), GetRandomYPosition());
+		cloud.sprite.setTexture(m_cloudTextures[i % m_cloudTextures.size()]);
+		cloud.velocity = float(GetRandomVelocity());
+		cloud.sprite.setPosition(float(GetRandomXPosition()), float(GetRandomYPosition()));
 		m_clouds.push_back(cloud);
 	}
 }
 
-void Clouds::Update()
+void Clouds::Update(const sf::RenderWindow& window)
 {
 	// Move each cloud every frame in x-axis by some amount
 	for (auto& cloud : m_clouds)
-		cloud.sprite.move(sf::Vector2f(0.005, 0));
+	{
+		cloud.sprite.move(sf::Vector2f(0.005f, 0.f));
+		
+		// If cloud has gone out of window boundaries:
+		if (window.mapCoordsToPixel(cloud.sprite.getPosition()).x > WindowWidth)
+		{
+			// Move cloud back to the left side of the window
+			auto newPos = window.mapPixelToCoords(sf::Vector2i(0, cloud.sprite.getPosition().y));
+			cloud.sprite.setPosition(sf::Vector2f(newPos.x - cloud.sprite.getTexture()->getSize().x, newPos.y));
+		}
+	}
 }
 
 

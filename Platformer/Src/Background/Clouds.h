@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <array>
 #include <vector>
+#include <Window/Window_info.h>
 
 struct Cloud
 {
@@ -14,7 +15,7 @@ class Clouds : public sf::Drawable
 {
 public:
 	Clouds();
-	void Update();
+	void Update(const sf::RenderWindow& window);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	sf::Sprite& GetCloud(int index);
 	int GetTotalNumberOfClouds()const;

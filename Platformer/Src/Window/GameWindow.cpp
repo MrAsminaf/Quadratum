@@ -11,7 +11,7 @@ GameWindow::GameWindow(const sf::Vector2i& size, const std::string & window_titl
 	:
 	m_gameWindow(sf::VideoMode(size.x, size.y), window_title)
 {
-	m_mapFileLoader.LoadLevel("platformer.txt");
+	m_mapFileLoader.LoadLevel("platformer2.txt");
 	m_textureManager.LoadTextures("tileset.png", 16);
 	m_mapRenderer.InitMap(m_mapFileLoader.GetLevelOneMap());
 }

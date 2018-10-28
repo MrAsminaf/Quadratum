@@ -38,15 +38,15 @@ void Background::Update(const sf::RenderWindow& window, float playerHorizontalVe
 	m_skySprite.setPosition(pos);
 
 	m_farMountainsSprite.setPosition(m_farMountainsSprite.getPosition().x, pos.y);
-	m_farMountainsSprite.move(playerHorizontalVelocity / 1.10, 0);
+	m_farMountainsSprite.move(playerHorizontalVelocity / 1.10f, 0);
 
 	m_closeMountainsSprite.setPosition(m_closeMountainsSprite.getPosition().x, pos.y);
-	m_closeMountainsSprite.move(playerHorizontalVelocity / 1.15, 0);
+	m_closeMountainsSprite.move(playerHorizontalVelocity / 1.15f, 0);
 
 	m_grassSprite.setPosition(m_grassSprite.getPosition().x, pos.y);
-	m_grassSprite.move(playerHorizontalVelocity / 1.20, 0);
+	m_grassSprite.move(playerHorizontalVelocity / 1.20f, 0);
 
-	m_clouds.Update();
+	m_clouds.Update(window);
 	for (int i = 0; i < m_clouds.GetTotalNumberOfClouds(); ++i)
-		m_clouds.GetCloud(i).move(playerHorizontalVelocity / 1.05, 0);
+		m_clouds.GetCloud(i).move(playerHorizontalVelocity / 1.05f, 0);
 }
