@@ -20,10 +20,10 @@ Player::Player()
 float Player::Controls(const sf::Time& delta_time)
 {
 	m_isIdle = false;
-
 	float currentSpeed = 0;
+
 	if(!m_isHittingLeftWall)
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && !sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		{
 			m_playerObject.move(sf::Vector2f(-m_horizontalVelocity * delta_time.asMilliseconds(), 0));
 			currentSpeed = -m_horizontalVelocity * delta_time.asMilliseconds();
@@ -32,8 +32,8 @@ float Player::Controls(const sf::Time& delta_time)
 				m_playerObject.setScale(sf::Vector2f(-m_playerScale.x, m_playerScale.y));
 		}
 
-	if(!m_isHittingRightWall)
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	 if(!m_isHittingRightWall)
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && !sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		{
 			m_playerObject.move(sf::Vector2f(m_horizontalVelocity * delta_time.asMilliseconds(), 0));
 			currentSpeed = m_horizontalVelocity * delta_time.asMilliseconds();
