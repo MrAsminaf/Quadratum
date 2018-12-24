@@ -14,7 +14,8 @@ public:
 	MapFileLoader() = default;
 	void LoadForeground(const std::string& foregroundFilename);
 	void LoadBackground(const std::string& backgroudFilename);
-	std::vector<std::string>& GetLevelOneMap();
+	std::vector<std::string>& GetForeground();
+	std::vector<std::string>& GetBackground();
 	std::vector<sf::Vector2i>& GetEnemyPositions();
 private:
 	bool TryOpenFile(const std::string& filename);

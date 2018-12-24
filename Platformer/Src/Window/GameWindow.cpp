@@ -11,9 +11,11 @@ GameWindow::GameWindow(const sf::Vector2i& size, const std::string & window_titl
 	:
 	m_gameWindow(sf::VideoMode(size.x, size.y), window_title)
 {
-	m_mapFileLoader.LoadForeground("platformer2.txt");
+	m_mapFileLoader.LoadForeground("foreground_platformer.txt");
+	m_mapFileLoader.LoadBackground("background_platformer.txt");
 	m_textureManager.LoadTextures("tileset.png", 16);
-	m_mapRenderer.InitMap(m_mapFileLoader.GetLevelOneMap());
+	m_mapRenderer.InitMapForeground(m_mapFileLoader.GetForeground());
+	m_mapRenderer.InitMapBackground(m_mapFileLoader.GetBackground());
 }
 
 void GameWindow::RunGameLoop()
@@ -44,7 +46,8 @@ void GameWindow::Render()
 {
 	m_gameWindow.clear(sf::Color(41, 41, 41));
 	m_gameWindow.draw(m_background);
-	m_gameWindow.draw(m_mapRenderer.GetMapObject(), m_textureManager.GetRenderStates());
+	m_gameWindow.draw(m_mapRenderer.GetBackgroundObject(), m_textureManager.GetRenderStates());
+	m_gameWindow.draw(m_mapRenderer.GetForegroundObject(), m_textureManager.GetRenderStates());
 	m_gameWindow.draw(m_player);
 
 	for (auto& enemy : m_enemiesList)
@@ -61,14 +64,14 @@ void GameWindow::Input(const sf::Time& delta_time)
 
 void GameWindow::Update()
 {
-	m_player.Update(m_mapFileLoader.GetLevelOneMap(), m_deltaTime);
+	m_player.Update(m_mapFileLoader.GetForeground(), m_deltaTime);
 	m_background.Update(m_gameWindow, m_playerHorizontalVelocity);
 
 	m_camera.GetView().setCenter(m_player.GetPlayerObject().getPosition().x, 16*15);
 	m_gameWindow.setView(m_camera.GetView());
 
 	for (auto& enemy : m_enemiesList)
-		enemy.Update(m_mapFileLoader.GetLevelOneMap());
+		enemy.Update(m_mapFileLoader.GetForeground());
 
 	m_ui.Update(m_gameWindow);
 }

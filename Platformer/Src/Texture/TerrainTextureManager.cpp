@@ -18,7 +18,7 @@ void TerrainTextureManager::LoadTextures(const std::string & filename, const int
 		for (int x = 0; x < columns; ++x)
 		{
 			sf::Texture texture;
-			texture.loadFromFile("Res/" + filename, sf::IntRect(x*size, y*size, size, size));
+			texture.loadFromFile("Res/" + filename, sf::IntRect(x * size, y * size, size, size));
 			m_textures.push_back(texture);
 		}
 	}

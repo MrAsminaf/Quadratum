@@ -28,27 +28,28 @@ void MapFileLoader::LoadForeground(const std::string& foregroundFilename)
 	inputStream.close();
 }
 
-void MapFileLoader::LoadBackground(const std::string & backgroudFilename)
+void MapFileLoader::LoadBackground(const std::string& backgroudFilename)
 {
 	if (!TryOpenFile(backgroudFilename))
 		return;
 
 	std::string tempLine;
-	int current_row = 0;
-	int current_column = 0;
 	while (std::getline(inputStream, tempLine))
 	{
-		for (auto& letter : tempLine)
-			m_levelOneBackgroundMap.push_back(tempLine);
+		m_levelOneBackgroundMap.push_back(tempLine);
 	}
 	std::cout << "Successfully loaded " << backgroudFilename << std::endl;
 	inputStream.close();
-
 }
 
-std::vector<std::string>& MapFileLoader::GetLevelOneMap()
+std::vector<std::string>& MapFileLoader::GetForeground()
 {
 	return m_levelOneForegroundMap;
+}
+
+std::vector<std::string>& MapFileLoader::GetBackground()
+{
+	return m_levelOneBackgroundMap;
 }
 
 std::vector<sf::Vector2i>& MapFileLoader::GetEnemyPositions()
