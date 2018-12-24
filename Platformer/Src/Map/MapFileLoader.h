@@ -12,12 +12,15 @@ class MapFileLoader
 {
 public:
 	MapFileLoader() = default;
-	void LoadLevel(const std::string& filename);
+	void LoadForeground(const std::string& foregroundFilename);
+	void LoadBackground(const std::string& backgroudFilename);
 	std::vector<std::string>& GetLevelOneMap();
 	std::vector<sf::Vector2i>& GetEnemyPositions();
-
+private:
+	bool TryOpenFile(const std::string& filename);
 private:
 	std::ifstream inputStream;
-	std::vector<std::string> m_levelOneMap;
+	std::vector<std::string> m_levelOneForegroundMap;
+	std::vector<std::string> m_levelOneBackgroundMap;
 	std::vector<sf::Vector2i> m_enemyPositions;
 };
