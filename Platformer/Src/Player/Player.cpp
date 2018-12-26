@@ -45,7 +45,7 @@ float Player::Controls(const sf::Time& delta_time)
 	if(m_isTouchingGround)
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		{
-			m_verticalVelocity = -0.87f ;
+			m_verticalVelocity = -375.f;
 			m_isTouchingGround = false;
 		}
 
@@ -73,8 +73,8 @@ void Player::UpdateGravity(const sf::Time& delta_time)
 {
 	if (m_isTouchingGround == false)
 	{
-		m_verticalVelocity += 0.0027f * delta_time.asMilliseconds();
-		m_playerObject.move(0, m_verticalVelocity);
+		m_verticalVelocity = m_verticalVelocity + 1000.f * delta_time.asSeconds();
+		m_playerObject.move(0, m_verticalVelocity * delta_time.asSeconds());
 	}
 	else
 		m_verticalVelocity = 0.f;

@@ -23,7 +23,8 @@ void GameWindow::RunGameLoop()
 
 	while (m_gameWindow.isOpen())
 	{
-		m_deltaTime = m_deltaTimeClock.restart();
+		m_deltaTime = m_deltaTimeClock.getElapsedTime();
+		m_deltaTimeClock.restart();
 
 		HandleWindowEvents();
 		Render();
