@@ -4,6 +4,7 @@
 #include <vector>
 #include <iostream>
 #include <string>
+#include "Animations/Animation.h"
 
 class Player : public sf::Drawable
 {
@@ -15,9 +16,6 @@ public:
 	sf::Sprite& GetPlayerObject();
 private:
 	void LoadTextures();
-	void IdleAnimation(const sf::Time& delta_time);
-	void RunAnimation();
-	void JumpAnimation();
 	void UpdateGravity(const sf::Time& delta_time);
 	void Collision(const std::vector<std::string>& map);
 private:
@@ -28,16 +26,16 @@ private:
 
 	bool m_previousIsTouchingGround;
 	bool m_isTouchingGround;
-
 	bool m_isHittingLeftWall;
 	bool m_isHittingRightWall;
 	bool m_isIdle;
 	float m_verticalVelocity;
 	const float m_horizontalVelocity;
 	sf::Clock m_clock;
-
-	const float m_idleAnimationTimeInterval;
-	const float m_runAnimationTimeInterval;
-	const float m_jumpAnimationTimeInterval;
 	const sf::Vector2f m_playerScale;
+
+	Animation m_runAmination;
+	Animation m_idleAnimation;
+	Animation m_jumpUpAnimation;
+	Animation m_jumpDownAnimation;
 };

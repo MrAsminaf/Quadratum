@@ -140,6 +140,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Animations\Animation.cpp" />
     <ClCompile Include="Src\Background\Background.cpp" />
     <ClCompile Include="Src\Background\Clouds.cpp" />
     <ClCompile Include="Src\GUI\Camera.cpp" />
@@ -153,6 +154,7 @@
     <ClCompile Include="Src\GUI\UI.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Animations\Animation.h" />
     <ClInclude Include="Src\Background\Background.h" />
     <ClInclude Include="Src\Background\Clouds.h" />
     <ClInclude Include="Src\Texture\BlocksInfo.h" />

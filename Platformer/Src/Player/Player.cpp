@@ -9,9 +9,6 @@ Player::Player()
 	m_isIdle					(false),
 	m_verticalVelocity			(0),
 	m_horizontalVelocity		(0.17f),
-	m_idleAnimationTimeInterval	(0.14f),
-	m_runAnimationTimeInterval	(0.1f),
-	m_jumpAnimationTimeInterval	(0.1f),
 	m_playerScale				(sf::Vector2f(1.5, 1.5))
 {
 	LoadTextures();
@@ -62,11 +59,16 @@ void Player::Update(const std::vector<std::string>& map, const sf::Time& delta_t
 	Collision(map);
 
 	if (m_isIdle)
-		IdleAnimation(delta_time);
+		m_idleAnimation.Play(m_playerObject);
 	else if (m_isTouchingGround)
-		RunAnimation();
+		m_runAmination.Play(m_playerObject);
 	else if (!m_isTouchingGround)
-		JumpAnimation();
+	{
+		if (m_verticalVelocity < 0)
+			m_jumpUpAnimation.Play(m_playerObject);
+		else
+			m_jumpDownAnimation.Play(m_playerObject);
+	}
 }
 
 void Player::UpdateGravity(const sf::Time& delta_time)
@@ -149,8 +151,9 @@ void Player::LoadTextures()
 		if (!temp.loadFromFile(std::string("Res/Animations/Character/Idle/" + filename)))
 			std::cerr << "Could not load character texture" << std::endl;
 		else
-			m_idleTextures.push_back(temp);
+			m_idleAnimation.AddAnimationFrame(temp);
 	}
+	m_idleAnimation.SetTimeInterval(0.14f);
 
 	for (int i = 0; i < 6; i++)
 	{
@@ -159,101 +162,31 @@ void Player::LoadTextures()
 		if (!temp.loadFromFile(std::string("Res/Animations/Character/Run/" + filename)))
 			std::cerr << "Could not load character texture" << std::endl;
 		else
-			m_runTextures.push_back(temp);
+			m_runAmination.AddAnimationFrame(temp);
 	}
+	m_runAmination.SetTimeInterval(0.1f);
 
-	for (int i = 0; i < 6; i++)
+	sf::Texture temp;
+	std::string filename = std::string("jump_0.png");
+	if (!temp.loadFromFile(std::string("Res/Animations/Character/Jump/" + filename)))
+		std::cerr << "Could not load character texture" << std::endl;
+	else
+		m_jumpUpAnimation.AddAnimationFrame(temp);
+
+
+	for (int i = 1; i < 4; i++)
 	{
 		sf::Texture temp;
 		std::string filename = std::string("jump_").append(std::to_string(i)) + ".png";
 		if (!temp.loadFromFile(std::string("Res/Animations/Character/Jump/" + filename)))
 			std::cerr << "Could not load character texture" << std::endl;
 		else
-			m_jumpTextures.push_back(temp);
+			m_jumpDownAnimation.AddAnimationFrame(temp);
 	}
+	m_jumpDownAnimation.SetTimeInterval(0.1f);
 
-	m_playerObject.setTexture(m_idleTextures[0]);
-	m_playerObject.setPosition(30, 30);
+	m_playerObject.setTexture(m_idleAnimation.GetFrame(0));
+	m_playerObject.setPosition(100, 30);
 	m_playerObject.setScale(m_playerScale);
 	m_playerObject.setOrigin(sf::Vector2f(m_playerObject.getTexture()->getSize().x / 2, m_playerObject.getTexture()->getSize().y / 2));
-}
-
-void Player::IdleAnimation(const sf::Time& delta_time)
-{	
-	sf::Time time = m_clock.getElapsedTime();
-
-	if (time.asSeconds() > m_idleAnimationTimeInterval * 3)
-		m_clock.restart();
-
-	if (time.asSeconds() > 0 && time.asSeconds() < m_idleAnimationTimeInterval)
-	{
-		m_playerObject.setTexture(m_idleTextures.at(0));
-	}
-	else if (time.asSeconds() > m_idleAnimationTimeInterval && time.asSeconds() < m_idleAnimationTimeInterval * 2)
-	{
-		m_playerObject.setTexture(m_idleTextures.at(1));
-	}
-	else if (time.asSeconds() > m_idleAnimationTimeInterval * 2 && time.asSeconds() < m_idleAnimationTimeInterval * 3)
-	{
-		m_playerObject.setTexture(m_idleTextures.at(2));
-	}
-}
-
-void Player::RunAnimation()
-{
-	sf::Time time = m_clock.getElapsedTime();
-
-	if (time.asSeconds() > m_runAnimationTimeInterval * 6)
-		m_clock.restart();
-
-	if (time.asSeconds() > 0 && time.asSeconds() < m_runAnimationTimeInterval)
-	{
-		m_playerObject.setTexture(m_runTextures.at(0));
-	}
-	else if (time.asSeconds() > m_runAnimationTimeInterval && time.asSeconds() < m_runAnimationTimeInterval * 2)
-	{
-		m_playerObject.setTexture(m_runTextures.at(1));
-	}
-	else if (time.asSeconds() > m_runAnimationTimeInterval * 2 && time.asSeconds() < m_runAnimationTimeInterval * 3)
-	{
-		m_playerObject.setTexture(m_runTextures.at(2));
-	}
-	else if (time.asSeconds() > m_runAnimationTimeInterval * 3 && time.asSeconds() < m_runAnimationTimeInterval * 4)
-	{
-		m_playerObject.setTexture(m_runTextures.at(3));
-	}
-	else if (time.asSeconds() > m_runAnimationTimeInterval * 4 && time.asSeconds() < m_runAnimationTimeInterval * 5)
-	{
-		m_playerObject.setTexture(m_runTextures.at(4));
-	}
-	else if (time.asSeconds() > m_runAnimationTimeInterval * 5 && time.asSeconds() < m_runAnimationTimeInterval * 6)
-	{
-		m_playerObject.setTexture(m_runTextures.at(5));
-	}
-}
-
-void Player::JumpAnimation()
-{
-	sf::Time time = m_clock.getElapsedTime();
-
-	if (m_verticalVelocity < 0)
-		m_playerObject.setTexture(m_jumpTextures.at(0));
-	else if (m_verticalVelocity > 0)
-	{
-		if (time.asSeconds() > m_jumpAnimationTimeInterval * 3)
-			m_clock.restart();
-
-		if (time.asSeconds() > 0 && time.asSeconds() < m_jumpAnimationTimeInterval)
-		{
-			m_playerObject.setTexture(m_jumpTextures.at(1));
-		}
-		else if (time.asSeconds() > m_jumpAnimationTimeInterval && time.asSeconds() < m_jumpAnimationTimeInterval * 2)
-		{
-			m_playerObject.setTexture(m_jumpTextures.at(2));
-		}
-		else if (time.asSeconds() > m_jumpAnimationTimeInterval * 2 && time.asSeconds() < m_jumpAnimationTimeInterval * 3)
-		{
-			m_playerObject.setTexture(m_jumpTextures.at(3));
-		}
-	}
 }
