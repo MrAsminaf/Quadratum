@@ -21,16 +21,16 @@ Clouds::Clouds()
 
 void Clouds::Update(const sf::RenderWindow& window)
 {
-	// Move each cloud every frame in x-axis by some amount
+	// Move each cloud every frame on x-axis by some amount
 	for (auto& cloud : m_clouds)
 	{
-		cloud.sprite.move(sf::Vector2f(0.005f, 0.f));
+		cloud.sprite.move(sf::Vector2f(cloud.velocity, 0.f));
 		
 		// If cloud has gone out of window boundaries:
 		if (window.mapCoordsToPixel(cloud.sprite.getPosition()).x > WindowWidth)
 		{
 			// Move cloud back to the left side of the window
-			auto newPos = window.mapPixelToCoords(sf::Vector2i(0, cloud.sprite.getPosition().y));
+			auto newPos = window.mapPixelToCoords(sf::Vector2i(0, GetRandomYPosition()));
 			cloud.sprite.setPosition(sf::Vector2f(newPos.x - cloud.sprite.getTexture()->getSize().x, newPos.y));
 		}
 	}
@@ -46,7 +46,7 @@ void Clouds::draw(sf::RenderTarget & target, sf::RenderStates states) const
  
 
 // Get selected cloud sprite
-sf::Sprite& Clouds::GetCloud(int index)
+sf::Sprite& Clouds::GetSprite(int index)
 {
 	return m_clouds[index].sprite;
 }
@@ -63,13 +63,13 @@ double Clouds::GetRandomVelocity() const
 {
 	std::random_device rd;
 	std::mt19937 rng(rd());
-	std::uniform_real_distribution<> vel(0.001f, 0.01f);
+	std::uniform_real_distribution<> vel(0.001f, 0.02f);
 
 	return vel(rng);
 }
 
 
-// Function for randomizing cloud position in Y-axis
+// Function for randomizing cloud position on Y-axis
 int Clouds::GetRandomYPosition() const
 {
 	std::random_device rd;
@@ -79,7 +79,7 @@ int Clouds::GetRandomYPosition() const
 	return height(rng);
 }
 
-// Function for randomizing cloud position in X-axi 
+// Function for randomizing cloud position on X-axis
 int Clouds::GetRandomXPosition() const
 {
 	std::random_device rd;

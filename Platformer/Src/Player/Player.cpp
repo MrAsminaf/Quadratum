@@ -52,7 +52,7 @@ float Player::Controls(const sf::Time& delta_time)
 	return currentSpeed;
 }
 
-void Player::Update(const std::vector<std::string>& map, const sf::Time& delta_time)
+void Player::Update(const std::vector<std::string>& map, const sf::Time& delta_time, std::vector<Enemy>& enemyContainer)
 {
 	m_previousIsTouchingGround = m_isTouchingGround;
 	UpdateGravity(delta_time);
@@ -61,7 +61,7 @@ void Player::Update(const std::vector<std::string>& map, const sf::Time& delta_t
 	if (m_isIdle)
 		m_idleAnimation.Play(m_playerObject);
 	else if (m_isTouchingGround)
-		m_runAmination.Play(m_playerObject);
+		m_runningAmination.Play(m_playerObject);
 	else if (!m_isTouchingGround)
 	{
 		if (m_verticalVelocity < 0)
@@ -69,6 +69,23 @@ void Player::Update(const std::vector<std::string>& map, const sf::Time& delta_t
 		else
 			m_jumpDownAnimation.Play(m_playerObject);
 	}
+
+	if (IsHitByEnemy(enemyContainer) && (m_healthCooldownClock.getElapsedTime().asSeconds() > 2 || m_healthCooldownClock.getElapsedTime().asSeconds() == 0) )
+		GotHit();
+
+	if (m_healthCooldownClock.getElapsedTime().asSeconds() > 2)
+	{
+		m_playerObject.setColor(sf::Color::White);
+	}
+	
+}
+
+void Player::GotHit()
+{
+	m_healthCooldownClock.restart();
+	m_playerObject.setColor(sf::Color::Red);
+
+	std::cout << "Player got hit" << std::endl;
 }
 
 void Player::UpdateGravity(const sf::Time& delta_time)
@@ -84,8 +101,8 @@ void Player::UpdateGravity(const sf::Time& delta_time)
 
 void Player::Collision(const std::vector<std::string>& map)
 {
-	const int x = m_playerObject.getPosition().x / 16;
-	const int y = m_playerObject.getPosition().y / 16;
+	const int x = int(m_playerObject.getPosition().x) / 16;
+	const int y = int(m_playerObject.getPosition().y) / 16;
 
 	if (map.at(y + 1).at(x) != ' ' ||
 		(map.at(y + 1).at(x + 1) != ' ' && m_playerObject.getPosition().x + 8 > (x + 1) * 16) ||
@@ -132,6 +149,21 @@ void Player::Collision(const std::vector<std::string>& map)
 		m_isHittingRightWall = false;
 }
 
+bool Player::IsHitByEnemy(std::vector<Enemy>& enemyContainer)
+{
+	for (auto& enemyObj : enemyContainer)
+	{
+		if (enemyObj.GetPosition().x <= m_playerObject.getPosition().x
+			&& m_playerObject.getPosition().x <= enemyObj.GetPosition().x + enemyObj.GetObject().getSize().x
+			&& m_playerObject.getPosition().y - enemyObj.GetPosition().y < 20
+			&& m_playerObject.getPosition().y - enemyObj.GetPosition().y > -enemyObj.GetObject().getSize().y)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 void Player::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
 	target.draw(m_playerObject, states);
@@ -162,9 +194,9 @@ void Player::LoadTextures()
 		if (!temp.loadFromFile(std::string("Res/Animations/Character/Run/" + filename)))
 			std::cerr << "Could not load character texture" << std::endl;
 		else
-			m_runAmination.AddAnimationFrame(temp);
+			m_runningAmination.AddAnimationFrame(temp);
 	}
-	m_runAmination.SetTimeInterval(0.1f);
+	m_runningAmination.SetTimeInterval(0.1f);
 
 	sf::Texture temp;
 	std::string filename = std::string("jump_0.png");
@@ -188,5 +220,5 @@ void Player::LoadTextures()
 	m_playerObject.setTexture(m_idleAnimation.GetFrame(0));
 	m_playerObject.setPosition(100, 30);
 	m_playerObject.setScale(m_playerScale);
-	m_playerObject.setOrigin(sf::Vector2f(m_playerObject.getTexture()->getSize().x / 2, m_playerObject.getTexture()->getSize().y / 2));
+	m_playerObject.setOrigin(sf::Vector2f(m_playerObject.getTexture()->getSize().x / 2.f, m_playerObject.getTexture()->getSize().y / 2.f));
 }

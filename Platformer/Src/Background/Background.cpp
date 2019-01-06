@@ -47,6 +47,9 @@ void Background::Update(const sf::RenderWindow& window, float playerHorizontalVe
 	m_grassSprite.move(playerHorizontalVelocity / 1.20f, 0);
 
 	m_clouds.Update(window);
-	for (int i = 0; i < m_clouds.GetTotalNumberOfClouds(); ++i)
-		m_clouds.GetCloud(i).move(playerHorizontalVelocity / 1.05f, 0);
+	if (playerHorizontalVelocity != 0)
+	{
+		for (int i = 0; i < m_clouds.GetTotalNumberOfClouds(); ++i)
+			m_clouds.GetSprite(i).move(playerHorizontalVelocity / 1.05f, 0);
+	}
 }

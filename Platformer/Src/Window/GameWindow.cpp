@@ -65,7 +65,7 @@ void GameWindow::Input(const sf::Time& delta_time)
 
 void GameWindow::Update()
 {
-	m_player.Update(m_mapFileLoader.GetForeground(), m_deltaTime);
+	m_player.Update(m_mapFileLoader.GetForeground(), m_deltaTime, m_enemiesList);
 	m_background.Update(m_gameWindow, m_playerHorizontalVelocity);
 
 	m_camera.GetView().setCenter(m_player.GetPlayerObject().getPosition().x, 16*15);
