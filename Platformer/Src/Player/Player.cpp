@@ -8,7 +8,7 @@ Player::Player()
 	m_isHittingRightWall		(false),
 	m_isIdle					(false),
 	m_verticalVelocity			(0),
-	m_horizontalVelocity		(0.17f),
+	m_HORIZONTALVELOCITY		(0.17f),
 	m_playerScale				(sf::Vector2f(1.5, 1.5))
 {
 	LoadTextures();
@@ -19,35 +19,74 @@ float Player::Controls(const sf::Time& delta_time)
 	m_isIdle = false;
 	float currentSpeed = 0;
 
-	if(!m_isHittingLeftWall)
+	if (!m_isHittingLeftWall)
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && !sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		{
-			m_playerObject.move(sf::Vector2f(-m_horizontalVelocity * delta_time.asMilliseconds(), 0));
-			currentSpeed = -m_horizontalVelocity * delta_time.asMilliseconds();
+			// -- test -- //
+			testVelocity += 0.003f;
+
+			if (testVelocity > m_HORIZONTALVELOCITY)
+				testVelocity = m_HORIZONTALVELOCITY;
+			// --- //
+
+			m_playerObject.move(sf::Vector2f(-testVelocity * delta_time.asMilliseconds(), 0));
+			currentSpeed = -testVelocity * delta_time.asMilliseconds();
 
 			if (m_playerObject.getScale() == m_playerScale)
 				m_playerObject.setScale(sf::Vector2f(-m_playerScale.x, m_playerScale.y));
 		}
 
-	 if(!m_isHittingRightWall)
+	 if (!m_isHittingRightWall)
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && !sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		{
-			m_playerObject.move(sf::Vector2f(m_horizontalVelocity * delta_time.asMilliseconds(), 0));
-			currentSpeed = m_horizontalVelocity * delta_time.asMilliseconds();
+			// -- test -- //
+			testVelocity += 0.003f;
+
+			if (testVelocity > m_HORIZONTALVELOCITY)
+				testVelocity = m_HORIZONTALVELOCITY;
+			// --- //
+
+			m_playerObject.move(sf::Vector2f(testVelocity * delta_time.asMilliseconds(), 0));
+			currentSpeed = testVelocity * delta_time.asMilliseconds();
 
 			if (m_playerObject.getScale() == sf::Vector2f(-m_playerScale.x, m_playerScale.y))
 				m_playerObject.setScale(m_playerScale);
 		}
 
-	if(m_isTouchingGround)
+	if (m_isTouchingGround)
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		{
 			m_verticalVelocity = -375.f;
 			m_isTouchingGround = false;
+
+			m_playerObject.move(sf::Vector2f(-testVelocity * delta_time.asMilliseconds(), 0));
+			currentSpeed = -testVelocity * delta_time.asMilliseconds();
 		}
 
-	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::A) && !sf::Keyboard::isKeyPressed(sf::Keyboard::D) && m_isTouchingGround)
-		m_isIdle = true;
+	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::A) && !sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	{
+		if (m_isTouchingGround)
+			m_isIdle = true;
+		
+		if (testVelocity > 0.f)
+			testVelocity -= 0.003f;
+		if (testVelocity < 0.f)
+			testVelocity = 0.f;
+
+		if (testVelocity > m_HORIZONTALVELOCITY)
+			testVelocity = m_HORIZONTALVELOCITY;
+
+		if (m_playerObject.getScale() == sf::Vector2f(-m_playerScale.x, m_playerScale.y) && !m_isHittingLeftWall)
+		{
+			m_playerObject.move(sf::Vector2f(-testVelocity * delta_time.asMilliseconds(), 0));
+			currentSpeed = -testVelocity * delta_time.asMilliseconds();
+		}
+		else if (m_playerObject.getScale() == sf::Vector2f(m_playerScale.x, m_playerScale.y) && !m_isHittingRightWall)
+		{
+			m_playerObject.move(sf::Vector2f(testVelocity * delta_time.asMilliseconds(), 0));
+			currentSpeed = testVelocity * delta_time.asMilliseconds();
+		}
+	}
 
 	return currentSpeed;
 }
@@ -84,7 +123,9 @@ void Player::GotHit()
 {
 	m_healthCooldownClock.restart();
 	m_playerObject.setColor(sf::Color::Red);
-
+	m_verticalVelocity = -300.f;
+	m_isTouchingGround = false;
+	
 	std::cout << "Player got hit" << std::endl;
 }
 
@@ -123,7 +164,7 @@ void Player::Collision(const std::vector<std::string>& map)
 	{
 		m_verticalVelocity = -m_verticalVelocity;
 	}
-
+	
 	if (map.at(y).at(x - 1) != ' ' ||
 		(map.at(y).at(x) == ' ' && map.at(y + 1).at(x) == ' ' && map.at(y + 1).at(x - 1) != ' ' && m_isTouchingGround == false) ||
 		(map.at(y).at(x) == ' ' && map.at(y - 1).at(x) == ' ' && map.at(y).at(x - 1) == ' ' && map.at(y - 1).at(x - 1) != ' '))
@@ -145,7 +186,7 @@ void Player::Collision(const std::vector<std::string>& map)
 			m_isHittingRightWall = true;
 		}
 	}
-	else 
+	else
 		m_isHittingRightWall = false;
 }
 

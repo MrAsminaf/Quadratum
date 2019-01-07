@@ -36,7 +36,7 @@ private:
 	bool m_isHittingRightWall;
 	bool m_isIdle;
 	float m_verticalVelocity;
-	const float m_horizontalVelocity;
+	const float m_HORIZONTALVELOCITY;
 	sf::Clock m_healthCooldownClock;
 	const sf::Vector2f m_playerScale;
 
@@ -44,4 +44,6 @@ private:
 	Animation m_idleAnimation;
 	Animation m_jumpUpAnimation;
 	Animation m_jumpDownAnimation;
+
+	float testVelocity = 0.f;
 };
