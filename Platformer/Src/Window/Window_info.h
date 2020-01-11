@@ -1,4 +1,4 @@
 #pragma once
 
-const int WindowWidth = 1200;
-const int WindowHeight = 700;
+const int WindowWidth = 1028;
+const int WindowHeight = 600;

@@ -2,14 +2,14 @@
 
 #include <SFML/Graphics.hpp>
 #include "Window_info.h"
-#include "Map/MapFileLoader.h"
-#include "Texture/TerrainTextureManager.h"
-#include "Map/MapRenderer.h"
-#include "Player/Player.h"
-#include "GUI/Camera.h"
-#include "Enemies/Enemy.h"
-#include "GUI/UI.h"
-#include "Background/Background.h"
+#include "../Map/MapFileLoader.h"
+#include "../Texture/TerrainTextureManager.h"
+#include "../Map/MapRenderer.h"
+#include "../Player/Player.h"
+#include "../GUI/Camera.h"
+#include "../Enemies/Enemy.h"
+#include "../GUI/UI.h"
+#include "../Background/Background.h"
 #include <vector>
 #define DEBUG
 

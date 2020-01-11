@@ -4,8 +4,8 @@
 #include <vector>
 #include <iostream>
 #include <string>
-#include "Animations/Animation.h"
-#include "Enemies/Enemy.h"
+#include "../Animations/Animation.h"
+#include "../Enemies/Enemy.h"
 
 // temporary
 #include <iostream>

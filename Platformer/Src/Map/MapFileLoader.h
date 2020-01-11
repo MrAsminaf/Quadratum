@@ -6,7 +6,7 @@
 #include<iostream>
 #include<string>
 
-#include <Texture/BlocksInfo.h>
+#include "../Texture/BlocksInfo.h"
 
 class MapFileLoader
 {

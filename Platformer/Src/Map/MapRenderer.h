@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Texture/BlocksInfo.h"
+#include "../Texture/BlocksInfo.h"
 #include <SFML/Graphics.hpp>
 #include <vector>
 

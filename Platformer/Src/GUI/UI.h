@@ -1,5 +1,5 @@
 #pragma once
-#include "Window/Window_info.h"
+#include "../Window/Window_info.h"
 #include <array>
 #include <iostream>
 #include <SFML/Graphics.hpp>
