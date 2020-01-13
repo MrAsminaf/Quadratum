@@ -91,7 +91,7 @@ int Clouds::GetRandomXPosition() const
 
 
 // Returns the .size() of private member: m_clouds
-int Clouds::GetTotalNumberOfClouds() const
+std::size_t Clouds::GetTotalNumberOfClouds() const
 {
 	return m_clouds.size();
 }

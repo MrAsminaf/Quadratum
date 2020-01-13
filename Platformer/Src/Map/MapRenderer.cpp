@@ -71,17 +71,17 @@ void MapRenderer::SetTexture(int blockNr, sf::Vertex* ptr)
 {
 	if (blockNr <= 16)
 	{
-		ptr->texCoords = sf::Vector2f(blockNr * 16, 0);
-		(ptr + 1)->texCoords = sf::Vector2f((blockNr + 1) * 16, 0);
-		(ptr + 2)->texCoords = sf::Vector2f((blockNr + 1) * 16, 16);
-		(ptr + 3)->texCoords = sf::Vector2f(blockNr * 16, 16);
+		ptr->texCoords = sf::Vector2f(float(blockNr * 16), 0.f);
+		(ptr + 1)->texCoords = sf::Vector2f(float((blockNr + 1) * 16), 0.f);
+		(ptr + 2)->texCoords = sf::Vector2f(float((blockNr + 1) * 16), 16.f);
+		(ptr + 3)->texCoords = sf::Vector2f(float(blockNr * 16), 16.f);
 	}
 	else
 	{
-		ptr->texCoords = sf::Vector2f((17 * 16) + 32 * (blockNr - 17), 0);
-		(ptr + 1)->texCoords = sf::Vector2f((17 * 16) + 32 * (blockNr - 16), 0);
-		(ptr + 2)->texCoords = sf::Vector2f((17 * 16) + 32 * (blockNr - 16), 16);
-		(ptr + 3)->texCoords = sf::Vector2f((17 * 16) + 32 * (blockNr - 17), 16);
+		ptr->texCoords = sf::Vector2f(float((17 * 16) + 32 * (blockNr - 17)), 0.f);
+		(ptr + 1)->texCoords = sf::Vector2f(float((17 * 16) + 32 * (blockNr - 16)), 0.f);
+		(ptr + 2)->texCoords = sf::Vector2f(float((17 * 16) + 32 * (blockNr - 16)), 16.f);
+		(ptr + 3)->texCoords = sf::Vector2f(float((17 * 16) + 32 * (blockNr - 17)), 16.f);
 	}
 }
 
