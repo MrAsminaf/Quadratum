@@ -151,6 +151,7 @@
     <ClCompile Include="Src\Background\Clouds.cpp" />
     <ClCompile Include="Src\GUI\Camera.cpp" />
     <ClCompile Include="Src\Enemies\Enemy.cpp" />
+    <ClCompile Include="Src\GUI\DebugButton.cpp" />
     <ClCompile Include="Src\Window\GameWindow.cpp" />
     <ClCompile Include="Src\Window\Main.cpp" />
     <ClCompile Include="Src\Map\MapFileLoader.cpp" />
@@ -163,6 +164,7 @@
     <ClInclude Include="Src\Animations\Animation.h" />
     <ClInclude Include="Src\Background\Background.h" />
     <ClInclude Include="Src\Background\Clouds.h" />
+    <ClInclude Include="Src\GUI\DebugButton.h" />
     <ClInclude Include="Src\Texture\BlocksInfo.h" />
     <ClInclude Include="Src\GUI\Camera.h" />
     <ClInclude Include="Src\Enemies\Enemy.h" />

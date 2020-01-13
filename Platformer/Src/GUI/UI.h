@@ -1,5 +1,6 @@
 #pragma once
 #include "../Window/Window_info.h"
+#include "DebugButton.h"
 #include <array>
 #include <iostream>
 #include <SFML/Graphics.hpp>
@@ -22,6 +23,7 @@ private:
 	void InitHealth();
 
 private:
+	DebugButton m_debugButton;
 	std::array<Heart, 3> m_heartsArray;
 	sf::Texture m_heartTexture;
 };
