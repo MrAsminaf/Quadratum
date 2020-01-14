@@ -1,6 +1,9 @@
 #include "UI.h"
 
-UI::UI()
+UI::UI(sf::RenderWindow* window_ptr, sf::Sprite* player_ptr)
+	:
+	m_mainWindowPtr(window_ptr),
+	m_debugButton(window_ptr, player_ptr)
 {
 	InitHealth();
 }
@@ -11,7 +14,7 @@ void UI::Update(const sf::RenderWindow & main_window)
 	{
 		obj.sprite.setPosition(main_window.mapPixelToCoords(sf::Vector2i(WindowWidth - (35 * (3 - obj.id)), 10)));
 	}
-	m_debugButton.Update(main_window);
+	m_debugButton.Update();
 }
 
 void UI::draw(sf::RenderTarget & target, sf::RenderStates states) const

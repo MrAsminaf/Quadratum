@@ -16,13 +16,14 @@ public:
 class UI : public sf::Drawable
 {
 public:
-	UI();
+	UI(sf::RenderWindow* window_ptr, sf::Sprite* player_ptr);
 	void Update(const sf::RenderWindow& main_window);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 private:
 	void InitHealth();
 
 private:
+	sf::RenderWindow* m_mainWindowPtr;
 	DebugButton m_debugButton;
 	std::array<Heart, 3> m_heartsArray;
 	sf::Texture m_heartTexture;

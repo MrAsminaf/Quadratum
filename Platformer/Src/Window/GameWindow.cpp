@@ -9,7 +9,8 @@ GameWindow::GameWindow()
 
 GameWindow::GameWindow(const sf::Vector2i& size, const std::string & window_title)
 	:
-	m_gameWindow(sf::VideoMode(size.x, size.y), window_title)
+	m_gameWindow(sf::VideoMode(size.x, size.y), window_title),
+	m_ui(&m_gameWindow, &m_player.GetPlayerObject())
 {
 	m_mapFileLoader.LoadForeground("foreground_platformer.txt");
 	m_mapFileLoader.LoadBackground("background_platformer.txt");
