@@ -34,24 +34,6 @@ void DebugButton::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	}
 }
 
-void DebugButton::Update()
-{
-	m_debugButtonRectangleShape.setPosition(m_mainWindowPtr->mapPixelToCoords(sf::Vector2i(DEFAULT_COORDS)));
-
-	if (CheckIfClicked())
-		SwitchDebugMode();
-
-	if (isOnDebug)
-	{
-		UpdatePlayerMarker();
-		UpdateMouseMarker();
-	}
-	else
-	{
-		HidePlayerMarker();
-	}
-}
-
 bool DebugButton::CheckIfClicked()
 { 
 	if (sf::Mouse::getPosition(*m_mainWindowPtr).x > m_mainWindowPtr->mapCoordsToPixel(m_debugButtonRectangleShape.getPosition()).x
@@ -119,14 +101,3 @@ void DebugButton::HidePlayerMarker()
 	m_playerMarker.setFillColor(sf::Color::Transparent);
 }
 
-bool DebugButton::CheckMouseIntersects()
-{
-	const auto x = sf::Mouse::getPosition().x / 16;
-	const auto y = sf::Mouse::getPosition().y / 16;
-
-	//if (map.at(pos).intersects(m_mouseMarker)))
-	//if (m_mouseMarker.getGlobalBounds().intersects((map.at(sf::Vector2i(x, y)))))
-	//	std::cout << "Intersects" << std::endl;
-	
-	return true;
-}

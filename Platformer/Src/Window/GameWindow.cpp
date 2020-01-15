@@ -75,7 +75,7 @@ void GameWindow::Update()
 	for (auto& enemy : m_enemiesList)
 		enemy.Update(m_mapFileLoader.GetForeground());
 
-	m_ui.Update();
+	m_ui.Update(m_mapFileLoader.GetMapForeground());
 }
 
 void GameWindow::InitEnemies()

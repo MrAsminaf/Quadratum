@@ -19,10 +19,9 @@ void MapFileLoader::LoadForeground(const std::string& foregroundFilename)
 			}
 			else if (letter != ' ')
 			{
-				m_maplevelOneForegroundMap.insert(std::make_pair(std::pair<int, int>(current_column, current_row), 
+				m_maplevelOneForegroundMap.insert(std::make_pair(sf::Vector2i(current_column, current_row), 
 					sf::FloatRect(sf::Vector2f(float(current_column), float(current_row)), sf::Vector2f(float(BlocksInfo::blockWidth), float(BlocksInfo::blockHeight)))));
 			}
-
 			++current_column;
 		}
 		m_levelOneForegroundMap.push_back(tempLine); // after processing each letter in line push the whole line to the vector
@@ -47,10 +46,10 @@ void MapFileLoader::LoadBackground(const std::string& backgroudFilename)
 	inputStream.close();
 }
 
-//std::map<sf::Vector2i, sf::FloatRect>& MapFileLoader::GetMapForeground()
-//{
-//	return m_maplevelOneForegroundMap;
-//}
+std::unordered_map<sf::Vector2i, sf::FloatRect>& MapFileLoader::GetMapForeground()
+{
+	return m_maplevelOneForegroundMap;
+}
 
 std::vector<std::string>& MapFileLoader::GetForeground()
 {

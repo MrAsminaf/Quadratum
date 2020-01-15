@@ -8,15 +8,6 @@ UI::UI(sf::RenderWindow* window_ptr, sf::Sprite* player_ptr)
 	InitHealth();
 }
 
-void UI::Update()
-{
-	for (Heart& obj : m_heartsArray)
-	{
-		obj.sprite.setPosition(m_mainWindowPtr->mapPixelToCoords(sf::Vector2i(WindowWidth - (35 * (3 - obj.id)), 10)));
-	}
-	m_debugButton.Update();
-}
-
 void UI::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
 	for (auto& item : m_heartsArray)
