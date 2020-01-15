@@ -67,39 +67,46 @@ bool DebugButton::CheckMouseIntersects(std::unordered_map<sf::Vector2<T1>, sf::R
 	const int y = int(pos2.y / 16);
 
 	try {
-		if (m_mouseMarker.getGlobalBounds().intersects((map.at(sf::Vector2i(x, y)))))
+		if (m_mouseMarker.getGlobalBounds().intersects(map.at(sf::Vector2i(x, y))))
 		{
 			m_mouseMarker.setFillColor(sf::Color::Yellow);
+			std::cout << "x, y" << std::endl;
 			return true;
 		}
-		else if (m_mouseMarker.getGlobalBounds().intersects((map.at(sf::Vector2i(x, y - 1)))))
+		else if (m_mouseMarker.getGlobalBounds().intersects(map.at(sf::Vector2i(x, y - 1))))
 		{
 			m_mouseMarker.setFillColor(sf::Color::Yellow);
+			std::cout << "x, y-1" << std::endl;
 			return true;
 		}
-		else if (m_mouseMarker.getGlobalBounds().intersects((map.at(sf::Vector2i(x, y + 1)))))
+		else if (m_mouseMarker.getGlobalBounds().intersects(map.at(sf::Vector2i(x, y + 1))))
 		{
 			m_mouseMarker.setFillColor(sf::Color::Yellow);
+			std::cout << "x, y+1" << std::endl;
 			return true;
 		}
-		else if (m_mouseMarker.getGlobalBounds().intersects((map.at(sf::Vector2i(x - 1, y)))))
+		else if (m_mouseMarker.getGlobalBounds().intersects(map.at(sf::Vector2i(x - 1, y))))
 		{
 			m_mouseMarker.setFillColor(sf::Color::Yellow);
+			std::cout << "x-1, y" << std::endl;
 			return true;
 		}
-		else if (m_mouseMarker.getGlobalBounds().intersects((map.at(sf::Vector2i(x + 1, y)))))
+		else if (m_mouseMarker.getGlobalBounds().intersects(map.at(sf::Vector2i(x + 1, y))))
 		{
 			m_mouseMarker.setFillColor(sf::Color::Yellow);
+			std::cout << "x+1, y" << std::endl;
 			return true;
 		}
-		else if (m_mouseMarker.getGlobalBounds().intersects((map.at(sf::Vector2i(x - 1, y - 1)))))
+		else if (m_mouseMarker.getGlobalBounds().intersects(map.at(sf::Vector2i(x - 1, y - 1))))
 		{
 			m_mouseMarker.setFillColor(sf::Color::Yellow);
+			std::cout << "x-1, y-1" << std::endl;
 			return true;
 		}
-		else if (m_mouseMarker.getGlobalBounds().intersects((map.at(sf::Vector2i(x + 1, y + 1)))))
+		else if (m_mouseMarker.getGlobalBounds().intersects(map.at(sf::Vector2i(x + 1, y + 1))))
 		{
 			m_mouseMarker.setFillColor(sf::Color::Yellow);
+			std::cout << "x+1, y+1" << std::endl;
 			return true;
 		}
 		else
