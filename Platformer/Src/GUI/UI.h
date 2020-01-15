@@ -17,7 +17,7 @@ class UI : public sf::Drawable
 {
 public:
 	UI(sf::RenderWindow* window_ptr, sf::Sprite* player_ptr);
-	void Update(const sf::RenderWindow& main_window);
+	void Update();
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 private:
 	void InitHealth();

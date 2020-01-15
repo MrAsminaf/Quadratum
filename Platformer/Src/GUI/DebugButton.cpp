@@ -15,6 +15,7 @@ DebugButton::DebugButton(sf::RenderWindow* window_ptr, sf::Sprite* player_ptr)
 	m_debugPlayerRectangleShape.setFillColor(sf::Color(255, 0, 0, 50));
 
 	MakePlayerMarker();
+	MakeMouseMarker();
 }
 
 sf::RectangleShape& DebugButton::GetObject()
@@ -29,6 +30,7 @@ void DebugButton::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	if (isOnDebug)
 	{
 		target.draw(m_playerMarker, states);
+		target.draw(m_mouseMarker, states);
 	}
 }
 
@@ -42,6 +44,7 @@ void DebugButton::Update()
 	if (isOnDebug)
 	{
 		UpdatePlayerMarker();
+		UpdateMouseMarker();
 	}
 	else
 	{
@@ -88,6 +91,12 @@ void DebugButton::MakePlayerMarker()
 	m_playerMarker.setFillColor(sf::Color(255, 0, 0, 100));
 }
 
+void DebugButton::MakeMouseMarker()
+{
+	m_mouseMarker.setSize(sf::Vector2f(10.f, 10.f));
+	m_mouseMarker.setFillColor(sf::Color(0, 0, 255, 100));
+}
+
 void DebugButton::UpdatePlayerMarker()
 {
 	if (m_playerMarker.getFillColor() != COLOR_ON_PRESSED)
@@ -96,7 +105,28 @@ void DebugButton::UpdatePlayerMarker()
 	m_playerMarker.setPosition(float(int(m_playerPtr->getPosition().x / 16) * 16), float(int(m_playerPtr->getPosition().y / 16) * 16));
 }
 
+void DebugButton::UpdateMouseMarker()
+{
+	if (!isOnDebug)
+		return;
+
+	const auto pos = sf::Mouse::getPosition(*m_mainWindowPtr);
+	m_mouseMarker.setPosition(m_mainWindowPtr->mapPixelToCoords(pos));
+}
+
 void DebugButton::HidePlayerMarker()
 {
 	m_playerMarker.setFillColor(sf::Color::Transparent);
+}
+
+bool DebugButton::CheckMouseIntersects()
+{
+	const auto x = sf::Mouse::getPosition().x / 16;
+	const auto y = sf::Mouse::getPosition().y / 16;
+
+	//if (map.at(pos).intersects(m_mouseMarker)))
+	//if (m_mouseMarker.getGlobalBounds().intersects((map.at(sf::Vector2i(x, y)))))
+	//	std::cout << "Intersects" << std::endl;
+	
+	return true;
 }

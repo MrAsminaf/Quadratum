@@ -4,6 +4,7 @@
 #include "../Texture/BlocksInfo.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <map>
 
 class DebugButton : public sf::Drawable
 {
@@ -16,12 +17,16 @@ public:
 	void SwitchDebugMode();
 private:
 	void MakePlayerMarker();
+	void MakeMouseMarker();
 	void UpdatePlayerMarker();
+	void UpdateMouseMarker();
 	void HidePlayerMarker();
+	bool CheckMouseIntersects();
 private:
 	sf::RenderWindow* m_mainWindowPtr;
 	sf::Sprite* m_playerPtr;
 	sf::RectangleShape m_playerMarker;
+	sf::RectangleShape m_mouseMarker; // temporary for debug
 	bool isOnDebug;
 	const sf::Color COLOR_ON_PRESSED;
 	sf::RectangleShape m_debugButtonRectangleShape;

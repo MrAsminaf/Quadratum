@@ -10,12 +10,17 @@ void MapFileLoader::LoadForeground(const std::string& foregroundFilename)
 	int current_column = 0; 
 	while (std::getline(inputStream, tempLine))
 	{
-		for (auto& letter : tempLine) // loop tharough every letter in each line
+		for (auto& letter : tempLine) // loop through every letter in each line
 		{
 			if (letter == 'x') // if letter is equal to 'x' it means it's a spawning position of some enemy type 
 			{
 				m_enemyPositions.push_back(sf::Vector2i(current_column, current_row));
 				letter = ' '; // after getting enemy position, reset the current letter to normal state
+			}
+			else if (letter != ' ')
+			{
+				m_maplevelOneForegroundMap.insert(std::make_pair(std::pair<int, int>(current_column, current_row), 
+					sf::FloatRect(sf::Vector2f(float(current_column), float(current_row)), sf::Vector2f(float(BlocksInfo::blockWidth), float(BlocksInfo::blockHeight)))));
 			}
 
 			++current_column;
@@ -41,6 +46,11 @@ void MapFileLoader::LoadBackground(const std::string& backgroudFilename)
 	std::cout << "Successfully loaded " << backgroudFilename << std::endl;
 	inputStream.close();
 }
+
+//std::map<sf::Vector2i, sf::FloatRect>& MapFileLoader::GetMapForeground()
+//{
+//	return m_maplevelOneForegroundMap;
+//}
 
 std::vector<std::string>& MapFileLoader::GetForeground()
 {
