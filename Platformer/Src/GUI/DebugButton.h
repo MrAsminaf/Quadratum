@@ -61,23 +61,57 @@ void DebugButton::Update(std::unordered_map<sf::Vector2<T1>, sf::Rect<T2>>& map)
 template<typename T1, typename T2>
 bool DebugButton::CheckMouseIntersects(std::unordered_map<sf::Vector2<T1>, sf::Rect<T2>>& map)
 {
-	const auto pos = m_mainWindowPtr->mapPixelToCoords(sf::Mouse::getPosition());
-	const int x = int(pos.x / 16);
-	const int y = int(pos.y / 16);
+	const auto pos = sf::Mouse::getPosition(*m_mainWindowPtr);
+	const auto pos2 = m_mainWindowPtr->mapPixelToCoords(pos);
+	const int x = int(pos2.x / 16);
+	const int y = int(pos2.y / 16);
 
 	try {
 		if (m_mouseMarker.getGlobalBounds().intersects((map.at(sf::Vector2i(x, y)))))
 		{
-			std::cout << "Intersects" << std::endl;
+			m_mouseMarker.setFillColor(sf::Color::Yellow);
+			return true;
+		}
+		else if (m_mouseMarker.getGlobalBounds().intersects((map.at(sf::Vector2i(x, y - 1)))))
+		{
+			m_mouseMarker.setFillColor(sf::Color::Yellow);
+			return true;
+		}
+		else if (m_mouseMarker.getGlobalBounds().intersects((map.at(sf::Vector2i(x, y + 1)))))
+		{
+			m_mouseMarker.setFillColor(sf::Color::Yellow);
+			return true;
+		}
+		else if (m_mouseMarker.getGlobalBounds().intersects((map.at(sf::Vector2i(x - 1, y)))))
+		{
+			m_mouseMarker.setFillColor(sf::Color::Yellow);
+			return true;
+		}
+		else if (m_mouseMarker.getGlobalBounds().intersects((map.at(sf::Vector2i(x + 1, y)))))
+		{
+			m_mouseMarker.setFillColor(sf::Color::Yellow);
+			return true;
+		}
+		else if (m_mouseMarker.getGlobalBounds().intersects((map.at(sf::Vector2i(x - 1, y - 1)))))
+		{
+			m_mouseMarker.setFillColor(sf::Color::Yellow);
+			return true;
+		}
+		else if (m_mouseMarker.getGlobalBounds().intersects((map.at(sf::Vector2i(x + 1, y + 1)))))
+		{
+			m_mouseMarker.setFillColor(sf::Color::Yellow);
 			return true;
 		}
 		else
+		{
+			m_mouseMarker.setFillColor(sf::Color(0, 0, 255, 100));
 			return false;
+		}
 	}
 	catch (std::exception& e)
 	{
-		std::cout << e.what() << " at: " << x << " " << y << std::endl;
+		m_mouseMarker.setFillColor(sf::Color(0, 0, 255, 100));
 		return false;
 	}
-
+	return false;
 }

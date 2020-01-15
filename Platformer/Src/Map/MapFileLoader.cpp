@@ -20,7 +20,7 @@ void MapFileLoader::LoadForeground(const std::string& foregroundFilename)
 			else if (letter != ' ')
 			{
 				m_maplevelOneForegroundMap.insert(std::make_pair(sf::Vector2i(current_column, current_row), 
-					sf::FloatRect(sf::Vector2f(float(current_column), float(current_row)), sf::Vector2f(float(BlocksInfo::blockWidth), float(BlocksInfo::blockHeight)))));
+					sf::FloatRect(sf::Vector2f(float(current_column * 16), float(current_row * 16)), sf::Vector2f(float(BlocksInfo::blockWidth), float(BlocksInfo::blockHeight)))));
 			}
 			++current_column;
 		}
