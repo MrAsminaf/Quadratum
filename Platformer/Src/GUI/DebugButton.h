@@ -70,7 +70,6 @@ bool DebugButton::CheckMouseIntersects(std::unordered_map<sf::Vector2<T1>, sf::R
 
 	if (map.count(sf::Vector2i(x, y)))
 	{
-		std::cout << "Exists (x, y)" << std::endl;
 		if (map.at(sf::Vector2i(x, y)).intersects(m_mouseMarker.getGlobalBounds()))
 		{
 			m_mouseMarker.setFillColor(sf::Color::Yellow);
@@ -78,7 +77,6 @@ bool DebugButton::CheckMouseIntersects(std::unordered_map<sf::Vector2<T1>, sf::R
 	}
 	if (map.count(sf::Vector2i(x, y + 1)))
 	{
-		std::cout << "Exists (x, y + 1)" << std::endl;
 		if (map.at(sf::Vector2i(x, y + 1)).intersects(m_mouseMarker.getGlobalBounds()))
 		{
 			m_mouseMarker.setFillColor(sf::Color::Yellow);
@@ -86,7 +84,6 @@ bool DebugButton::CheckMouseIntersects(std::unordered_map<sf::Vector2<T1>, sf::R
 	}
 	if (map.count(sf::Vector2i(x, y - 1)))
 	{
-		std::cout << "Exists (x, y - 1)" << std::endl;
 		if (map.at(sf::Vector2i(x, y - 1)).intersects(m_mouseMarker.getGlobalBounds()))
 		{
 			m_mouseMarker.setFillColor(sf::Color::Yellow);
@@ -94,7 +91,6 @@ bool DebugButton::CheckMouseIntersects(std::unordered_map<sf::Vector2<T1>, sf::R
 	}
 	if (map.count(sf::Vector2i(x + 1, y)))
 	{
-		std::cout << "Exists (x + 1, y)" << std::endl;
 		if (map.at(sf::Vector2i(x + 1, y)).intersects(m_mouseMarker.getGlobalBounds()))
 		{
 			m_mouseMarker.setFillColor(sf::Color::Yellow);
@@ -102,7 +98,6 @@ bool DebugButton::CheckMouseIntersects(std::unordered_map<sf::Vector2<T1>, sf::R
 	}
 	if (map.count(sf::Vector2i(x + 1, y + 1)))
 	{
-		std::cout << "Exists (x + 1, y + 1)" << std::endl;
 		if (map.at(sf::Vector2i(x + 1, y + 1)).intersects(m_mouseMarker.getGlobalBounds()))
 		{
 			m_mouseMarker.setFillColor(sf::Color::Yellow);

@@ -1,6 +1,6 @@
 #include "Player.h"
 
-Player::Player()
+Player::Player(sf::RenderWindow* window_ptr)
 	:
 	m_previousIsTouchingGround	(false),
 	m_isTouchingGround			(false),
@@ -9,9 +9,11 @@ Player::Player()
 	m_isIdle					(false),
 	m_verticalVelocity			(0),
 	m_HORIZONTALVELOCITY		(0.17f),
-	m_playerScale				(sf::Vector2f(1.5, 1.5))
+	m_playerScale				(sf::Vector2f(1.5, 1.5)),
+	m_mainWindowPtr				(window_ptr)
 {
 	LoadTextures();
+	m_collisionRectangle.setSize(sf::Vector2f(16, 32));
 }
 
 float Player::Controls(const sf::Time& delta_time)
@@ -89,34 +91,6 @@ float Player::Controls(const sf::Time& delta_time)
 	}
 
 	return currentSpeed;
-}
-
-void Player::Update(const std::vector<std::string>& map, const sf::Time& delta_time, std::vector<Enemy>& enemyContainer)
-{
-	m_previousIsTouchingGround = m_isTouchingGround;
-	UpdateGravity(delta_time);
-	Collision(map);
-
-	if (m_isIdle)
-		m_idleAnimation.Play(m_playerObject);
-	else if (m_isTouchingGround)
-		m_runningAmination.Play(m_playerObject);
-	else if (!m_isTouchingGround)
-	{
-		if (m_verticalVelocity < 0)
-			m_jumpUpAnimation.Play(m_playerObject);
-		else
-			m_jumpDownAnimation.Play(m_playerObject);
-	}
-
-	if (IsHitByEnemy(enemyContainer) && (m_healthCooldownClock.getElapsedTime().asSeconds() > 2 || m_healthCooldownClock.getElapsedTime().asSeconds() == 0) )
-		GotHit();
-
-	if (m_healthCooldownClock.getElapsedTime().asSeconds() > 2)
-	{
-		m_playerObject.setColor(sf::Color::White);
-	}
-	
 }
 
 void Player::GotHit()
@@ -203,6 +177,11 @@ bool Player::IsHitByEnemy(std::vector<Enemy>& enemyContainer)
 		}
 	}
 	return false;
+}
+
+void Player::PrintCollisionInfo(const int x, const int y) const
+{
+	std::cout << "Intersects (" << x << ", " << y << ")" << std::endl;
 }
 
 void Player::draw(sf::RenderTarget & target, sf::RenderStates states) const

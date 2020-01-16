@@ -10,7 +10,8 @@ GameWindow::GameWindow()
 GameWindow::GameWindow(const sf::Vector2i& size, const std::string & window_title)
 	:
 	m_gameWindow(sf::VideoMode(size.x, size.y), window_title),
-	m_ui(&m_gameWindow, &m_player.GetPlayerObject())
+	m_ui(&m_gameWindow, &m_player.GetPlayerObject()),
+	m_player(&m_gameWindow)
 {
 	m_mapFileLoader.LoadForeground("foreground_platformer.txt");
 	m_mapFileLoader.LoadBackground("background_platformer.txt");
@@ -66,7 +67,7 @@ void GameWindow::Input(const sf::Time& delta_time)
 
 void GameWindow::Update()
 {
-	m_player.Update(m_mapFileLoader.GetForeground(), m_deltaTime, m_enemiesList);
+	m_player.Update(m_mapFileLoader.GetForeground(), m_deltaTime, m_enemiesList, m_mapFileLoader.GetMapForeground());
 	m_background.Update(m_gameWindow, m_playerHorizontalVelocity);
 
 	m_camera.GetView().setCenter(m_player.GetPlayerObject().getPosition().x, 16*15);
