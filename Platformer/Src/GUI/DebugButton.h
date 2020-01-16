@@ -66,59 +66,48 @@ bool DebugButton::CheckMouseIntersects(std::unordered_map<sf::Vector2<T1>, sf::R
 	const int x = int(pos2.x / 16);
 	const int y = int(pos2.y / 16);
 
-	try {
-		if (m_mouseMarker.getGlobalBounds().intersects(map.at(sf::Vector2i(x, y))))
-		{
-			m_mouseMarker.setFillColor(sf::Color::Yellow);
-			std::cout << "x, y" << std::endl;
-			return true;
-		}
-		else if (m_mouseMarker.getGlobalBounds().intersects(map.at(sf::Vector2i(x, y - 1))))
-		{
-			m_mouseMarker.setFillColor(sf::Color::Yellow);
-			std::cout << "x, y-1" << std::endl;
-			return true;
-		}
-		else if (m_mouseMarker.getGlobalBounds().intersects(map.at(sf::Vector2i(x, y + 1))))
-		{
-			m_mouseMarker.setFillColor(sf::Color::Yellow);
-			std::cout << "x, y+1" << std::endl;
-			return true;
-		}
-		else if (m_mouseMarker.getGlobalBounds().intersects(map.at(sf::Vector2i(x - 1, y))))
-		{
-			m_mouseMarker.setFillColor(sf::Color::Yellow);
-			std::cout << "x-1, y" << std::endl;
-			return true;
-		}
-		else if (m_mouseMarker.getGlobalBounds().intersects(map.at(sf::Vector2i(x + 1, y))))
-		{
-			m_mouseMarker.setFillColor(sf::Color::Yellow);
-			std::cout << "x+1, y" << std::endl;
-			return true;
-		}
-		else if (m_mouseMarker.getGlobalBounds().intersects(map.at(sf::Vector2i(x - 1, y - 1))))
-		{
-			m_mouseMarker.setFillColor(sf::Color::Yellow);
-			std::cout << "x-1, y-1" << std::endl;
-			return true;
-		}
-		else if (m_mouseMarker.getGlobalBounds().intersects(map.at(sf::Vector2i(x + 1, y + 1))))
-		{
-			m_mouseMarker.setFillColor(sf::Color::Yellow);
-			std::cout << "x+1, y+1" << std::endl;
-			return true;
-		}
-		else
-		{
-			m_mouseMarker.setFillColor(sf::Color(0, 0, 255, 100));
-			return false;
-		}
-	}
-	catch (std::exception& e)
+	m_mouseMarker.setFillColor(sf::Color(0, 0, 255, 100));
+
+	if (map.count(sf::Vector2i(x, y)))
 	{
-		m_mouseMarker.setFillColor(sf::Color(0, 0, 255, 100));
-		return false;
+		std::cout << "Exists (x, y)" << std::endl;
+		if (map.at(sf::Vector2i(x, y)).intersects(m_mouseMarker.getGlobalBounds()))
+		{
+			m_mouseMarker.setFillColor(sf::Color::Yellow);
+		}
 	}
+	if (map.count(sf::Vector2i(x, y + 1)))
+	{
+		std::cout << "Exists (x, y + 1)" << std::endl;
+		if (map.at(sf::Vector2i(x, y + 1)).intersects(m_mouseMarker.getGlobalBounds()))
+		{
+			m_mouseMarker.setFillColor(sf::Color::Yellow);
+		}
+	}
+	if (map.count(sf::Vector2i(x, y - 1)))
+	{
+		std::cout << "Exists (x, y - 1)" << std::endl;
+		if (map.at(sf::Vector2i(x, y - 1)).intersects(m_mouseMarker.getGlobalBounds()))
+		{
+			m_mouseMarker.setFillColor(sf::Color::Yellow);
+		}
+	}
+	if (map.count(sf::Vector2i(x + 1, y)))
+	{
+		std::cout << "Exists (x + 1, y)" << std::endl;
+		if (map.at(sf::Vector2i(x + 1, y)).intersects(m_mouseMarker.getGlobalBounds()))
+		{
+			m_mouseMarker.setFillColor(sf::Color::Yellow);
+		}
+	}
+	if (map.count(sf::Vector2i(x + 1, y + 1)))
+	{
+		std::cout << "Exists (x + 1, y + 1)" << std::endl;
+		if (map.at(sf::Vector2i(x + 1, y + 1)).intersects(m_mouseMarker.getGlobalBounds()))
+		{
+			m_mouseMarker.setFillColor(sf::Color::Yellow);
+		}
+	}
+
 	return false;
 }
