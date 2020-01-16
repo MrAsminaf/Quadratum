@@ -7,5 +7,6 @@ int main()
 	GameWindow gameWindow;
 	gameWindow.RunGameLoop();
 	//test
+	//test2
 	return 0;
 }
