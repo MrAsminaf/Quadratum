@@ -13,7 +13,6 @@ Player::Player(sf::RenderWindow* window_ptr)
 	m_mainWindowPtr				(window_ptr)
 {
 	LoadTextures();
-	m_collisionRectangle.setSize(sf::Vector2f(16, 32));
 }
 
 float Player::Controls(const sf::Time& delta_time)

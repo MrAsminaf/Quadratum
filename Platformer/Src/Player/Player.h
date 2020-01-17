@@ -34,7 +34,6 @@ private:
 private:
 	sf::RenderWindow* m_mainWindowPtr;
 	sf::Sprite m_playerObject;
-	sf::RectangleShape m_collisionRectangle;
 	std::vector<sf::Texture>m_idleTextures;
 	std::vector<sf::Texture>m_runTextures;
 	std::vector<sf::Texture>m_jumpTextures;
@@ -58,7 +57,8 @@ private:
 };
 
 template<typename T1, typename T2>
-inline void Player::Update(const std::vector<std::string>& map, const sf::Time& delta_time, std::vector<Enemy>& enemyContainer, std::unordered_map<sf::Vector2<T1>, sf::Rect<T2>>& stdmap)
+inline void Player::Update(const std::vector<std::string>& map, const sf::Time& delta_time, std::vector<Enemy>& enemyContainer, 
+	std::unordered_map<sf::Vector2<T1>, sf::Rect<T2>>& stdmap)
 {
 	m_previousIsTouchingGround = m_isTouchingGround;
 	UpdateGravity(delta_time);
@@ -89,8 +89,6 @@ inline void Player::Update(const std::vector<std::string>& map, const sf::Time& 
 template<typename T1, typename T2>
 inline void Player::CollisonV2(std::unordered_map<sf::Vector2<T1>, sf::Rect<T2>>& map)
 {
-	//m_collisionRectangle.setPosition(m_playerObject.getPosition());
-
 	const auto pos = m_playerObject.getPosition();
 	const int x = int(pos.x / 16);
 	const int y = int(pos.y / 16);
@@ -119,6 +117,22 @@ inline void Player::CollisonV2(std::unordered_map<sf::Vector2<T1>, sf::Rect<T2>>
 		}
 	}
 	else if (map.count(sf::Vector2i(x - 1, y + 1)) && !map.count(sf::Vector2i(x, y + 1)) && m_isTouchingGround && abs((m_playerObject.getPosition().x + 10) - x * 16) < 16)
+	{
+		if (map.at(sf::Vector2i(x - 1, y + 1)).intersects(m_playerObject.getGlobalBounds()))
+		{
+			std::cout << "(x - 1, y + 1)" << std::endl;
+			m_isTouchingGround = true;
+		}
+	}
+	else if (map.count(sf::Vector2i(x + 1, y + 1)) && !map.count(sf::Vector2i(x, y + 1)) && !m_isTouchingGround && abs(m_playerObject.getPosition().x - x * 16) > 10)
+	{
+		if (map.at(sf::Vector2i(x + 1, y + 1)).intersects(m_playerObject.getGlobalBounds()))
+		{
+			std::cout << "(x + 1, y + 1)" << std::endl;
+			m_isTouchingGround = true;
+		}
+	}
+	else if (map.count(sf::Vector2i(x - 1, y + 1)) && !map.count(sf::Vector2i(x, y + 1)) && !m_isTouchingGround && abs((m_playerObject.getPosition().x + 10) - x * 16) < 16)
 	{
 		if (map.at(sf::Vector2i(x - 1, y + 1)).intersects(m_playerObject.getGlobalBounds()))
 		{
