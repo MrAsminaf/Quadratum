@@ -7,7 +7,8 @@ Player::Player(sf::RenderWindow* window_ptr)
 	m_isHittingLeftWall			(false),
 	m_isHittingRightWall		(false),
 	m_isIdle					(false),
-	m_verticalVelocity			(0),
+	m_verticalVelocity			(0.f),
+	m_horizontalVelocity		(0.f),
 	m_HORIZONTALVELOCITY		(0.17f),
 	m_playerScale				(sf::Vector2f(1.5, 1.5)),
 	m_mainWindowPtr				(window_ptr)
@@ -18,7 +19,7 @@ Player::Player(sf::RenderWindow* window_ptr)
 float Player::Controls(const sf::Time& delta_time)
 {
 	m_isIdle = false;
-	float currentSpeed = 0;
+	m_horizontalVelocity = 0;
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && !sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
@@ -29,7 +30,7 @@ float Player::Controls(const sf::Time& delta_time)
 				testVelocity = m_HORIZONTALVELOCITY;
 
 			m_playerObject.move(sf::Vector2f(-testVelocity * delta_time.asMilliseconds(), 0));
-			currentSpeed = -testVelocity * delta_time.asMilliseconds();
+			m_horizontalVelocity = -testVelocity * delta_time.asMilliseconds();
 		}
 
 		if (m_playerObject.getScale() == m_playerScale)
@@ -45,7 +46,7 @@ float Player::Controls(const sf::Time& delta_time)
 				testVelocity = m_HORIZONTALVELOCITY;
 
 			m_playerObject.move(sf::Vector2f(testVelocity * delta_time.asMilliseconds(), 0));
-			currentSpeed = testVelocity * delta_time.asMilliseconds();
+			m_horizontalVelocity = testVelocity * delta_time.asMilliseconds();
 		}
 
 		if (m_playerObject.getScale() == sf::Vector2f(-m_playerScale.x, m_playerScale.y))
@@ -58,9 +59,6 @@ float Player::Controls(const sf::Time& delta_time)
 		{
 			m_verticalVelocity = -375.f;
 			m_isTouchingGround = false;
-
-			m_playerObject.move(sf::Vector2f(-testVelocity * delta_time.asMilliseconds(), 0));
-			currentSpeed = -testVelocity * delta_time.asMilliseconds();
 		}
 	}
 
@@ -77,16 +75,15 @@ float Player::Controls(const sf::Time& delta_time)
 		if (m_playerObject.getScale() == sf::Vector2f(-m_playerScale.x, m_playerScale.y) && !m_isHittingLeftWall)
 		{
 			m_playerObject.move(sf::Vector2f(-testVelocity * delta_time.asMilliseconds(), 0));
-			currentSpeed = -testVelocity * delta_time.asMilliseconds();
+			m_horizontalVelocity = -testVelocity * delta_time.asMilliseconds();
 		}
 		else if (m_playerObject.getScale() == sf::Vector2f(m_playerScale.x, m_playerScale.y) && !m_isHittingRightWall)
 		{
 			m_playerObject.move(sf::Vector2f(testVelocity * delta_time.asMilliseconds(), 0));
-			currentSpeed = testVelocity * delta_time.asMilliseconds();
+			m_horizontalVelocity = testVelocity * delta_time.asMilliseconds();
 		}
 	}
-
-	return currentSpeed;
+	return m_horizontalVelocity;
 }
 
 void Player::GotHit()
@@ -188,6 +185,11 @@ void Player::draw(sf::RenderTarget & target, sf::RenderStates states) const
 sf::Sprite & Player::GetPlayerObject()
 {
 	return m_playerObject;
+}
+
+float Player::GetHorizontalVelocity() const
+{
+	return m_horizontalVelocity;
 }
 
 void Player::LoadTextures()

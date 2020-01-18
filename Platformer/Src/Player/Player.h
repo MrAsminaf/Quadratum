@@ -23,6 +23,7 @@ public:
 	void GotHit();
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	sf::Sprite& GetPlayerObject();
+	float GetHorizontalVelocity()const;
 private:
 	void LoadTextures();
 	void UpdateGravity(const sf::Time& delta_time);
@@ -44,6 +45,7 @@ private:
 	bool m_isHittingRightWall;
 	bool m_isIdle;
 	float m_verticalVelocity;
+	float m_horizontalVelocity;
 	const float m_HORIZONTALVELOCITY;
 	sf::Clock m_healthCooldownClock;
 	const sf::Vector2f m_playerScale;
