@@ -20,6 +20,7 @@ Player::Player(sf::RenderWindow* window_ptr)
 float Player::Controls(const sf::Time& delta_time)
 {
 	m_isIdle = false;
+	m_horizontalVelocity = 0;
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && !sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
