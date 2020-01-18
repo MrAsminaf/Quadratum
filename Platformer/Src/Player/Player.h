@@ -23,6 +23,7 @@ public:
 	void GotHit();
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	sf::Sprite& GetPlayerObject();
+	float GetHorizontalVeloity();
 private:
 	void LoadTextures();
 	void UpdateGravity(const sf::Time& delta_time);
@@ -30,7 +31,6 @@ private:
 	template<typename T1, typename T2>
 	void CollisonV2(std::unordered_map<sf::Vector2<T1>, sf::Rect<T2>>& map);
 	bool IsHitByEnemy(std::vector<Enemy>& enemyContainer);
-	void PrintCollisionInfo(const int x, const int y)const;
 private:
 	sf::RenderWindow* m_mainWindowPtr;
 	sf::Sprite m_playerObject;
@@ -44,7 +44,9 @@ private:
 	bool m_isHittingRightWall;
 	bool m_isIdle;
 	float m_verticalVelocity;
-	const float m_HORIZONTALVELOCITY;
+	float m_horizontalVelocity;
+	float m_slideVelocity;
+	const float MAX_HORIZONTAL_VELOCITY;
 	sf::Clock m_healthCooldownClock;
 	const sf::Vector2f m_playerScale;
 
@@ -52,8 +54,6 @@ private:
 	Animation m_idleAnimation;
 	Animation m_jumpUpAnimation;
 	Animation m_jumpDownAnimation;
-
-	float testVelocity = 0.f;
 };
 
 template<typename T1, typename T2>
@@ -97,8 +97,7 @@ inline void Player::CollisonV2(std::unordered_map<sf::Vector2<T1>, sf::Rect<T2>>
 	{
 		if (map.at(sf::Vector2i(x, y)).intersects(m_playerObject.getGlobalBounds()))
 		{
-			PrintCollisionInfo(x, y);
-
+			std::cout << "(x, y)" << std::endl;
 		}
 	}
 	if (map.count(sf::Vector2i(x, y + 1)))
@@ -183,7 +182,11 @@ inline void Player::CollisonV2(std::unordered_map<sf::Vector2<T1>, sf::Rect<T2>>
 		m_isHittingRightWall = false;
 	}
 
-	if (map.count(sf::Vector2i(x - 1, y)))
+	if (m_playerObject.getPosition().x < 0)
+	{
+		m_isHittingLeftWall = true;
+	}
+	else if (map.count(sf::Vector2i(x - 1, y)))
 	{
 		if (map.at(sf::Vector2i(x - 1, y)).intersects(m_playerObject.getGlobalBounds()))
 		{

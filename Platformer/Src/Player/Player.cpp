@@ -7,8 +7,10 @@ Player::Player(sf::RenderWindow* window_ptr)
 	m_isHittingLeftWall			(false),
 	m_isHittingRightWall		(false),
 	m_isIdle					(false),
-	m_verticalVelocity			(0),
-	m_HORIZONTALVELOCITY		(0.17f),
+	m_verticalVelocity			(0.f),
+	m_horizontalVelocity		(0.f),
+	m_slideVelocity				(0.f),
+	MAX_HORIZONTAL_VELOCITY		(0.17f),
 	m_playerScale				(sf::Vector2f(1.5, 1.5)),
 	m_mainWindowPtr				(window_ptr)
 {
@@ -18,18 +20,16 @@ Player::Player(sf::RenderWindow* window_ptr)
 float Player::Controls(const sf::Time& delta_time)
 {
 	m_isIdle = false;
-	float currentSpeed = 0;
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && !sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
 		if (!m_isHittingLeftWall)
 		{
-			testVelocity += 0.003f;
-			if (testVelocity > m_HORIZONTALVELOCITY)
-				testVelocity = m_HORIZONTALVELOCITY;
+			if (m_slideVelocity <= MAX_HORIZONTAL_VELOCITY)
+				m_slideVelocity += 0.003f;
 
-			m_playerObject.move(sf::Vector2f(-testVelocity * delta_time.asMilliseconds(), 0));
-			currentSpeed = -testVelocity * delta_time.asMilliseconds();
+			m_playerObject.move(sf::Vector2f(-m_slideVelocity * delta_time.asMilliseconds(), 0));
+			m_horizontalVelocity = -m_slideVelocity * delta_time.asMilliseconds();
 		}
 
 		if (m_playerObject.getScale() == m_playerScale)
@@ -40,12 +40,11 @@ float Player::Controls(const sf::Time& delta_time)
 	{
 		if (!m_isHittingRightWall)
 		{
-			testVelocity += 0.003f;
-			if (testVelocity > m_HORIZONTALVELOCITY)
-				testVelocity = m_HORIZONTALVELOCITY;
+			if (m_slideVelocity <= MAX_HORIZONTAL_VELOCITY)
+				m_slideVelocity += 0.003f;
 
-			m_playerObject.move(sf::Vector2f(testVelocity * delta_time.asMilliseconds(), 0));
-			currentSpeed = testVelocity * delta_time.asMilliseconds();
+			m_playerObject.move(sf::Vector2f(m_slideVelocity * delta_time.asMilliseconds(), 0));
+			m_horizontalVelocity = m_slideVelocity * delta_time.asMilliseconds();
 		}
 
 		if (m_playerObject.getScale() == sf::Vector2f(-m_playerScale.x, m_playerScale.y))
@@ -56,11 +55,9 @@ float Player::Controls(const sf::Time& delta_time)
 	{
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		{
+			// "launch" player upwards
 			m_verticalVelocity = -375.f;
 			m_isTouchingGround = false;
-
-			m_playerObject.move(sf::Vector2f(-testVelocity * delta_time.asMilliseconds(), 0));
-			currentSpeed = -testVelocity * delta_time.asMilliseconds();
 		}
 	}
 
@@ -69,24 +66,23 @@ float Player::Controls(const sf::Time& delta_time)
 		if (m_isTouchingGround)
 			m_isIdle = true;
 		
-		if (testVelocity > 0.f)
-			testVelocity -= 0.003f;
+		if (m_slideVelocity > 0.f)
+			m_slideVelocity -= 0.003f;
 		else
-			testVelocity = 0.f;
+			m_slideVelocity = 0.f;
 
 		if (m_playerObject.getScale() == sf::Vector2f(-m_playerScale.x, m_playerScale.y) && !m_isHittingLeftWall)
 		{
-			m_playerObject.move(sf::Vector2f(-testVelocity * delta_time.asMilliseconds(), 0));
-			currentSpeed = -testVelocity * delta_time.asMilliseconds();
+			m_playerObject.move(sf::Vector2f(-m_slideVelocity * delta_time.asMilliseconds(), 0));
+			m_horizontalVelocity = -m_slideVelocity * delta_time.asMilliseconds();
 		}
 		else if (m_playerObject.getScale() == sf::Vector2f(m_playerScale.x, m_playerScale.y) && !m_isHittingRightWall)
 		{
-			m_playerObject.move(sf::Vector2f(testVelocity * delta_time.asMilliseconds(), 0));
-			currentSpeed = testVelocity * delta_time.asMilliseconds();
+			m_playerObject.move(sf::Vector2f(m_slideVelocity * delta_time.asMilliseconds(), 0));
+			m_horizontalVelocity = m_slideVelocity * delta_time.asMilliseconds();
 		}
 	}
-
-	return currentSpeed;
+	return m_horizontalVelocity;
 }
 
 void Player::GotHit()
@@ -175,11 +171,6 @@ bool Player::IsHitByEnemy(std::vector<Enemy>& enemyContainer)
 	return false;
 }
 
-void Player::PrintCollisionInfo(const int x, const int y) const
-{
-	std::cout << "Intersects (" << x << ", " << y << ")" << std::endl;
-}
-
 void Player::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
 	target.draw(m_playerObject, states);
@@ -188,6 +179,11 @@ void Player::draw(sf::RenderTarget & target, sf::RenderStates states) const
 sf::Sprite & Player::GetPlayerObject()
 {
 	return m_playerObject;
+}
+
+float Player::GetHorizontalVeloity()
+{
+	return m_horizontalVelocity;
 }
 
 void Player::LoadTextures()
@@ -234,7 +230,7 @@ void Player::LoadTextures()
 	m_jumpDownAnimation.SetTimeInterval(0.1f);
 
 	m_playerObject.setTexture(m_idleAnimation.GetFrame(0));
-	m_playerObject.setPosition(100, 30);
+	m_playerObject.setPosition(10, -50);
 	m_playerObject.setScale(m_playerScale);
 	m_playerObject.setOrigin(sf::Vector2f(m_playerObject.getTexture()->getSize().x / 2.f, m_playerObject.getTexture()->getSize().y / 2.f));
 }
