@@ -154,7 +154,7 @@ inline void Player::CollisonV2(std::unordered_map<sf::Vector2<T1>, sf::Rect<T2>>
 		}
 	}
 
-	if (map.count(sf::Vector2i(x + 1, y)))
+	if (map.count(sf::Vector2i(x + 1, y)) /*&& abs(m_playerObject.getPosition().x - x * 16) < 20*/)
 	{
 		if (map.at(sf::Vector2i(x + 1, y)).intersects(m_playerObject.getGlobalBounds()))
 		{

@@ -20,41 +20,40 @@ float Player::Controls(const sf::Time& delta_time)
 	m_isIdle = false;
 	float currentSpeed = 0;
 
-	if (!m_isHittingLeftWall)
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && !sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && !sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	{
+		if (!m_isHittingLeftWall)
 		{
-			// -- test -- //
 			testVelocity += 0.003f;
-
 			if (testVelocity > m_HORIZONTALVELOCITY)
 				testVelocity = m_HORIZONTALVELOCITY;
-			// --- //
 
 			m_playerObject.move(sf::Vector2f(-testVelocity * delta_time.asMilliseconds(), 0));
 			currentSpeed = -testVelocity * delta_time.asMilliseconds();
-
-			if (m_playerObject.getScale() == m_playerScale)
-				m_playerObject.setScale(sf::Vector2f(-m_playerScale.x, m_playerScale.y));
 		}
 
-	 if (!m_isHittingRightWall)
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && !sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-		{
-			// -- test -- //
-			testVelocity += 0.003f;
+		if (m_playerObject.getScale() == m_playerScale)
+			m_playerObject.setScale(sf::Vector2f(-m_playerScale.x, m_playerScale.y));
+	}
 
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && !sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	{
+		if (!m_isHittingRightWall)
+		{
+			testVelocity += 0.003f;
 			if (testVelocity > m_HORIZONTALVELOCITY)
 				testVelocity = m_HORIZONTALVELOCITY;
-			// --- //
 
 			m_playerObject.move(sf::Vector2f(testVelocity * delta_time.asMilliseconds(), 0));
 			currentSpeed = testVelocity * delta_time.asMilliseconds();
-
-			if (m_playerObject.getScale() == sf::Vector2f(-m_playerScale.x, m_playerScale.y))
-				m_playerObject.setScale(m_playerScale);
 		}
 
+		if (m_playerObject.getScale() == sf::Vector2f(-m_playerScale.x, m_playerScale.y))
+			m_playerObject.setScale(m_playerScale);
+	}
+
 	if (m_isTouchingGround)
+	{
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		{
 			m_verticalVelocity = -375.f;
@@ -63,6 +62,7 @@ float Player::Controls(const sf::Time& delta_time)
 			m_playerObject.move(sf::Vector2f(-testVelocity * delta_time.asMilliseconds(), 0));
 			currentSpeed = -testVelocity * delta_time.asMilliseconds();
 		}
+	}
 
 	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::A) && !sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
@@ -71,11 +71,8 @@ float Player::Controls(const sf::Time& delta_time)
 		
 		if (testVelocity > 0.f)
 			testVelocity -= 0.003f;
-		if (testVelocity < 0.f)
+		else
 			testVelocity = 0.f;
-
-		if (testVelocity > m_HORIZONTALVELOCITY)
-			testVelocity = m_HORIZONTALVELOCITY;
 
 		if (m_playerObject.getScale() == sf::Vector2f(-m_playerScale.x, m_playerScale.y) && !m_isHittingLeftWall)
 		{
