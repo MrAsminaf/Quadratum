@@ -43,6 +43,7 @@ private:
 	bool m_isHittingLeftWall;
 	bool m_isHittingRightWall;
 	bool m_isIdle;
+	bool m_isSpaceReleased;
 	float m_verticalVelocity;
 	float m_horizontalVelocity;
 	float m_slideVelocity;

@@ -7,6 +7,7 @@ Player::Player(sf::RenderWindow* window_ptr)
 	m_isHittingLeftWall			(false),
 	m_isHittingRightWall		(false),
 	m_isIdle					(false),
+	m_isSpaceReleased			(true),
 	m_verticalVelocity			(0.f),
 	m_horizontalVelocity		(0.f),
 	m_slideVelocity				(0.f),
@@ -21,6 +22,10 @@ float Player::Controls(const sf::Time& delta_time)
 {
 	m_isIdle = false;
 	m_horizontalVelocity = 0;
+
+
+	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+		m_isSpaceReleased = true;
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && !sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
@@ -54,11 +59,12 @@ float Player::Controls(const sf::Time& delta_time)
 
 	if (m_isTouchingGround)
 	{
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && m_isSpaceReleased)
 		{
 			// "launch" player upwards
 			m_verticalVelocity = -375.f;
 			m_isTouchingGround = false;
+			m_isSpaceReleased = false;
 		}
 	}
 
@@ -66,7 +72,7 @@ float Player::Controls(const sf::Time& delta_time)
 	{
 		if (m_isTouchingGround)
 			m_isIdle = true;
-		
+
 		if (m_slideVelocity > 0.f)
 			m_slideVelocity -= 0.003f;
 		else
@@ -231,7 +237,7 @@ void Player::LoadTextures()
 	m_jumpDownAnimation.SetTimeInterval(0.1f);
 
 	m_playerObject.setTexture(m_idleAnimation.GetFrame(0));
-	m_playerObject.setPosition(10, -50);
+	m_playerObject.setPosition(100, -50);
 	m_playerObject.setScale(m_playerScale);
 	m_playerObject.setOrigin(sf::Vector2f(m_playerObject.getTexture()->getSize().x / 2.f, m_playerObject.getTexture()->getSize().y / 2.f));
 }
