@@ -4,7 +4,7 @@ GameWindow::GameWindow()
 	:
 	GameWindow(sf::Vector2i(WindowWidth, WindowHeight), "Platformer")
 {
-	InitEnemies();
+	//InitEnemies();
 }
 
 GameWindow::GameWindow(const sf::Vector2i& size, const std::string & window_title)
@@ -73,8 +73,8 @@ void GameWindow::Update()
 	m_camera.GetView().setCenter(m_player.GetPlayerObject().getPosition().x, 16*15);
 	m_gameWindow.setView(m_camera.GetView());
 
-	for (auto& enemy : m_enemiesList)
-		enemy.Update(m_mapFileLoader.GetForeground());
+	//for (auto& enemy : m_enemiesList)
+	//	enemy.Update(m_mapFileLoader.GetForeground());
 
 	m_ui.Update(m_mapFileLoader.GetMapForeground());
 }

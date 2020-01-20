@@ -48,6 +48,7 @@ private:
 	float m_slideVelocity;
 	const float MAX_HORIZONTAL_VELOCITY;
 	sf::Clock m_healthCooldownClock;
+	sf::Clock m_hittingCeilingClock;
 	const sf::Vector2f m_playerScale;
 
 	Animation m_runningAmination;
@@ -144,7 +145,7 @@ inline void Player::CollisonV2(std::unordered_map<sf::Vector2<T1>, sf::Rect<T2>>
 		m_isTouchingGround = false;
 	}
 
-	if (map.count(sf::Vector2i(x, y - 1)))
+	if (map.count(sf::Vector2i(x, y - 1)) && m_verticalVelocity < 0)
 	{
 		if (map.at(sf::Vector2i(x, y - 1)).intersects(m_playerObject.getGlobalBounds()))
 		{
@@ -152,6 +153,27 @@ inline void Player::CollisonV2(std::unordered_map<sf::Vector2<T1>, sf::Rect<T2>>
 			m_verticalVelocity = -m_verticalVelocity;
 		}
 	}
+	else if (map.count(sf::Vector2i(x - 1, y - 1)) && !m_isTouchingGround && !m_isHittingLeftWall 
+		&& m_verticalVelocity < 0 && abs((m_playerObject.getPosition().x + 10) - x * 16) < 16)
+	{
+		if (map.at(sf::Vector2i(x - 1, y - 1)).intersects(m_playerObject.getGlobalBounds()))
+		{
+			std::cout << "(x - 1, y - 1)" << std::endl;
+			m_verticalVelocity =- m_verticalVelocity;
+			m_hittingCeilingClock.restart();
+		}
+	}
+	/*else if (map.count(sf::Vector2i(x + 1, y - 1)) && !m_isTouchingGround && !m_isHittingLeftWall
+		&& m_verticalVelocity < 0 && m_hittingCeilingClock.getElapsedTime().asMilliseconds() > 100
+		&& abs((m_playerObject.getPosition().x + 10) - x * 16) < 16)
+	{
+		if (map.at(sf::Vector2i(x - 1, y - 1)).intersects(m_playerObject.getGlobalBounds()))
+		{
+			std::cout << "(x - 1, y - 1)" << std::endl;
+			m_verticalVelocity = -m_verticalVelocity;
+			m_hittingCeilingClock.restart();
+		}
+	}*/
 
 	if (map.count(sf::Vector2i(x + 1, y)) /*&& abs(m_playerObject.getPosition().x - x * 16) < 20*/)
 	{
