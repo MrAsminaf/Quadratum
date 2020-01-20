@@ -16,6 +16,7 @@ DebugButton::DebugButton(sf::RenderWindow* window_ptr, sf::Sprite* player_ptr)
 
 	MakePlayerMarker();
 	MakeMouseMarker();
+	MakePlayerOriginMarker();
 }
 
 sf::RectangleShape& DebugButton::GetObject()
@@ -31,6 +32,7 @@ void DebugButton::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
 		target.draw(m_playerMarker, states);
 		target.draw(m_mouseMarker, states);
+		target.draw(m_playerOriginMarker, states);
 	}
 }
 
@@ -79,6 +81,12 @@ void DebugButton::MakeMouseMarker()
 	m_mouseMarker.setFillColor(sf::Color(0, 0, 255, 100));
 }
 
+void DebugButton::MakePlayerOriginMarker()
+{
+	m_playerOriginMarker.setSize(sf::Vector2f(1.f, 1.f));
+	m_playerOriginMarker.setFillColor(sf::Color::Red);
+}
+
 void DebugButton::UpdatePlayerMarker()
 {
 	if (m_playerMarker.getFillColor() != COLOR_ON_PRESSED)
@@ -94,6 +102,11 @@ void DebugButton::UpdateMouseMarker()
 
 	const auto pos = sf::Mouse::getPosition(*m_mainWindowPtr);
 	m_mouseMarker.setPosition(m_mainWindowPtr->mapPixelToCoords(pos));
+}
+
+void DebugButton::UpdatePlayerOriginMarker()
+{
+	m_playerOriginMarker.setPosition(m_playerPtr->getPosition());
 }
 
 void DebugButton::HidePlayerMarker()

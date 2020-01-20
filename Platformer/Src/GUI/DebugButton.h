@@ -19,15 +19,18 @@ public:
 private:
 	void MakePlayerMarker();
 	void MakeMouseMarker();
+	void MakePlayerOriginMarker();
 	void UpdatePlayerMarker();
 	void UpdateMouseMarker();
+	void UpdatePlayerOriginMarker();
 	void HidePlayerMarker();
 	template<typename T1, typename T2> bool CheckMouseIntersects(std::unordered_map<sf::Vector2<T1>, sf::Rect<T2>>& map);
 private:
 	sf::RenderWindow* m_mainWindowPtr;
 	sf::Sprite* m_playerPtr;
 	sf::RectangleShape m_playerMarker;
-	sf::RectangleShape m_mouseMarker; // temporary for debug
+	sf::RectangleShape m_mouseMarker;// temporary for debug
+	sf::RectangleShape m_playerOriginMarker;
 	bool isOnDebug;
 	const sf::Color COLOR_ON_PRESSED;
 	sf::RectangleShape m_debugButtonRectangleShape;
@@ -50,6 +53,7 @@ void DebugButton::Update(std::unordered_map<sf::Vector2<T1>, sf::Rect<T2>>& map)
 	{
 		UpdatePlayerMarker();
 		UpdateMouseMarker();
+		UpdatePlayerOriginMarker();
 		CheckMouseIntersects(map);
 	}
 	else

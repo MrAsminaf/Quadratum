@@ -106,6 +106,8 @@ inline void Player::CollisonV2(std::unordered_map<sf::Vector2<T1>, sf::Rect<T2>>
 		if (map.at(sf::Vector2i(x, y + 1)).intersects(m_playerObject.getGlobalBounds()))
 		{
 			m_isTouchingGround = true;
+			if (m_playerObject.getPosition().y + 16 > (y + 1) * 16 + 3)
+				m_playerObject.setPosition(m_playerObject.getPosition().x, m_playerObject.getPosition().y - 3);
 		}
 	}
 	else if (map.count(sf::Vector2i(x + 1, y + 1)) && !map.count(sf::Vector2i(x, y + 1)) && m_isTouchingGround && abs(m_playerObject.getPosition().x - x * 16) > 10)
@@ -114,6 +116,9 @@ inline void Player::CollisonV2(std::unordered_map<sf::Vector2<T1>, sf::Rect<T2>>
 		{
 			std::cout << "(x + 1, y + 1)" << std::endl;
 			m_isTouchingGround = true;
+
+			if (m_playerObject.getPosition().y + 16 > (y + 1) * 16 + 3)
+				m_playerObject.setPosition(m_playerObject.getPosition().x, m_playerObject.getPosition().y - 3);
 		}
 	}
 	else if (map.count(sf::Vector2i(x - 1, y + 1)) && !map.count(sf::Vector2i(x, y + 1)) && m_isTouchingGround && abs((m_playerObject.getPosition().x + 10) - x * 16) < 16)
@@ -122,6 +127,9 @@ inline void Player::CollisonV2(std::unordered_map<sf::Vector2<T1>, sf::Rect<T2>>
 		{
 			std::cout << "(x - 1, y + 1)" << std::endl;
 			m_isTouchingGround = true;
+
+			if (m_playerObject.getPosition().y + 16 > (y + 1) * 16 + 3)
+				m_playerObject.setPosition(m_playerObject.getPosition().x, m_playerObject.getPosition().y - 3);
 		}
 	}
 	else if (map.count(sf::Vector2i(x + 1, y + 1)) && !map.count(sf::Vector2i(x, y + 1)) && !m_isTouchingGround && abs(m_playerObject.getPosition().x - x * 16) > 10)
@@ -130,6 +138,9 @@ inline void Player::CollisonV2(std::unordered_map<sf::Vector2<T1>, sf::Rect<T2>>
 		{
 			std::cout << "(x + 1, y + 1)" << std::endl;
 			m_isTouchingGround = true;
+
+			if (m_playerObject.getPosition().y + 16 > (y + 1) * 16 + 3)
+				m_playerObject.setPosition(m_playerObject.getPosition().x, m_playerObject.getPosition().y - 3);
 		}
 	}
 	else if (map.count(sf::Vector2i(x - 1, y + 1)) && !map.count(sf::Vector2i(x, y + 1)) && !m_isTouchingGround && abs((m_playerObject.getPosition().x + 10) - x * 16) < 16)
@@ -138,6 +149,9 @@ inline void Player::CollisonV2(std::unordered_map<sf::Vector2<T1>, sf::Rect<T2>>
 		{
 			std::cout << "(x - 1, y + 1)" << std::endl;
 			m_isTouchingGround = true;
+
+			if (m_playerObject.getPosition().y + 16 > (y + 1) * 16 + 3)
+				m_playerObject.setPosition(m_playerObject.getPosition().x, m_playerObject.getPosition().y - 3);
 		}
 	}
 	else
