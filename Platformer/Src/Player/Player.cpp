@@ -62,7 +62,7 @@ float Player::Controls(const sf::Time& delta_time)
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && m_isSpaceReleased)
 		{
 			// "launch" player upwards
-			m_verticalVelocity = -375.f;
+			m_verticalVelocity = -4.25f;
 			m_isTouchingGround = false;
 			m_isSpaceReleased = false;
 		}
@@ -106,8 +106,9 @@ void Player::UpdateGravity(const sf::Time& delta_time)
 {
 	if (m_isTouchingGround == false)
 	{
-		m_verticalVelocity = m_verticalVelocity + 1000.f * delta_time.asSeconds();
-		m_playerObject.move(0, m_verticalVelocity * delta_time.asSeconds());
+		m_verticalVelocity = m_verticalVelocity + 11.5f * delta_time.asSeconds();
+		m_playerObject.move(0, m_verticalVelocity);
+		//std::cout << m_verticalVelocity << std::endl;
 	}
 	else
 		m_verticalVelocity = 0.f;
