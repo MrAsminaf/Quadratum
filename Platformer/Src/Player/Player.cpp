@@ -62,7 +62,7 @@ float Player::Controls(const sf::Time& delta_time)
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && m_isSpaceReleased)
 		{
 			// "launch" player upwards
-			m_verticalVelocity = -4.25f;
+			m_verticalVelocity = -3.75f;
 			m_isTouchingGround = false;
 			m_isSpaceReleased = false;
 		}
