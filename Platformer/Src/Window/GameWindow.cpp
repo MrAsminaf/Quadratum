@@ -7,11 +7,13 @@ GameWindow::GameWindow()
 	//InitEnemies();
 }
 
-GameWindow::GameWindow(const sf::Vector2i& size, const std::string & window_title)
+GameWindow::GameWindow(const sf::Vector2i& size, const std::string& window_title)
 	:
 	m_gameWindow(sf::VideoMode(size.x, size.y), window_title),
 	m_ui(&m_gameWindow, &m_player.GetPlayerObject()),
-	m_player(&m_gameWindow)
+	m_player(&m_gameWindow),
+	FPS_LIMIT(60),
+	TICKS_TO_SKIP(1000 / FPS_LIMIT)
 {
 	m_mapFileLoader.LoadForeground("foreground_platformer.txt");
 	m_mapFileLoader.LoadBackground("background_platformer.txt");
@@ -22,16 +24,19 @@ GameWindow::GameWindow(const sf::Vector2i& size, const std::string & window_titl
 
 void GameWindow::RunGameLoop()
 {
-
+	int next_tick = m_deltaTimeClock.getElapsedTime().asMilliseconds();
+	int sleep_time = 0;
 	while (m_gameWindow.isOpen())
 	{
-		m_deltaTime = m_deltaTimeClock.getElapsedTime();
-		m_deltaTimeClock.restart();
-
 		HandleWindowEvents();
 		Render();
-		Input(m_deltaTime);
+		Input();
 		Update();
+
+		next_tick += TICKS_TO_SKIP;
+		sleep_time = next_tick - m_deltaTimeClock.getElapsedTime().asMilliseconds();
+		if (sleep_time >= 0)
+			std::this_thread::sleep_for(std::chrono::milliseconds(sleep_time));
 	}
 }
 
@@ -60,9 +65,9 @@ void GameWindow::Render()
 	m_gameWindow.display();
 }
 
-void GameWindow::Input(const sf::Time& delta_time)
+void GameWindow::Input()
 {
-	 m_player.Controls(delta_time);
+	 m_player.Controls();
 }
 
 void GameWindow::Update()

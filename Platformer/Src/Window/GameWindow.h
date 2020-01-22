@@ -11,6 +11,8 @@
 #include "../GUI/UI.h"
 #include "../Background/Background.h"
 #include <vector>
+#include <chrono>
+#include <thread>
 #define DEBUG
 
 class GameWindow
@@ -23,7 +25,7 @@ public:
 private:
 	void HandleWindowEvents();
 	void Render();
-	void Input(const sf::Time& delta_time);
+	void Input();
 	void Update();
 	void InitEnemies();
 
@@ -39,4 +41,6 @@ private:
 	Background m_background;
 	sf::Time m_deltaTime;
 	std::vector<Enemy> m_enemiesList;
+	const int FPS_LIMIT;
+	const int TICKS_TO_SKIP;
 };

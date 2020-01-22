@@ -16,7 +16,7 @@ class Player : public sf::Drawable
 {
 public:
 	Player(sf::RenderWindow* window_ptr);
-	float Controls(const sf::Time& delta_time);
+	float Controls();
 	template<typename T1, typename T2>
 	void Update(const std::vector<std::string>& map, const sf::Time& delta_time, std::vector<Enemy>& enemyContainer, 
 		std::unordered_map<sf::Vector2<T1>, sf::Rect<T2>>& stdmap);
@@ -26,7 +26,7 @@ public:
 	float GetHorizontalVeloity();
 private:
 	void LoadTextures();
-	void UpdateGravity(const sf::Time& delta_time);
+	void UpdateGravity();
 	void Collision(const std::vector<std::string>& map);
 	template<typename T1, typename T2>
 	void CollisonV2(std::unordered_map<sf::Vector2<T1>, sf::Rect<T2>>& map);
@@ -47,6 +47,7 @@ private:
 	float m_verticalVelocity;
 	float m_horizontalVelocity;
 	float m_slideVelocity;
+	const float SLIDE_SPEED_CHANGE;
 	const float MAX_HORIZONTAL_VELOCITY;
 	sf::Clock m_healthCooldownClock;
 	const sf::Vector2f m_playerScale;
@@ -62,7 +63,7 @@ inline void Player::Update(const std::vector<std::string>& map, const sf::Time& 
 	std::unordered_map<sf::Vector2<T1>, sf::Rect<T2>>& stdmap)
 {
 	m_previousIsTouchingGround = m_isTouchingGround;
-	UpdateGravity(delta_time);
+	UpdateGravity();
 	//Collision(map);
 	CollisonV2(stdmap);
 
@@ -93,8 +94,6 @@ inline void Player::CollisonV2(std::unordered_map<sf::Vector2<T1>, sf::Rect<T2>>
 	const auto pos = m_playerObject.getPosition();
 	const int x = int(pos.x / 16);
 	const int y = int(pos.y / 16);
-
-	std::cout << m_playerObject.getPosition().x << " " << x * 16 + 14 << std::endl;
 
 	if (map.count(sf::Vector2i(x, y + 1)))
 	{
