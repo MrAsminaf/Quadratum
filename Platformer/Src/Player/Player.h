@@ -94,6 +94,8 @@ inline void Player::CollisonV2(std::unordered_map<sf::Vector2<T1>, sf::Rect<T2>>
 	const int x = int(pos.x / 16);
 	const int y = int(pos.y / 16);
 
+	std::cout << m_playerObject.getPosition().x << " " << x * 16 + 14 << std::endl;
+
 	if (map.count(sf::Vector2i(x, y + 1)))
 	{
 		if (map.at(sf::Vector2i(x, y + 1)).intersects(m_playerObject.getGlobalBounds()))
