@@ -11,14 +11,15 @@ Player::Player(sf::RenderWindow* window_ptr)
 	m_verticalVelocity			(0.f),
 	m_horizontalVelocity		(0.f),
 	m_slideVelocity				(0.f),
-	MAX_HORIZONTAL_VELOCITY		(0.17f),
+	SLIDE_SPEED_CHANGE			(0.2f),
+	MAX_HORIZONTAL_VELOCITY		(2.5f),
 	m_playerScale				(sf::Vector2f(1.5, 1.5)),
 	m_mainWindowPtr				(window_ptr)
 {
 	LoadTextures();
 }
 
-float Player::Controls(const sf::Time& delta_time)
+float Player::Controls()
 {
 	m_isIdle = false;
 	m_horizontalVelocity = 0;
@@ -32,10 +33,10 @@ float Player::Controls(const sf::Time& delta_time)
 		if (!m_isHittingLeftWall)
 		{
 			if (m_slideVelocity <= MAX_HORIZONTAL_VELOCITY)
-				m_slideVelocity += 0.003f;
+				m_slideVelocity += 0.2f;
 
-			m_playerObject.move(sf::Vector2f(-m_slideVelocity * delta_time.asMilliseconds(), 0));
-			m_horizontalVelocity = -m_slideVelocity * delta_time.asMilliseconds();
+			m_playerObject.move(sf::Vector2f(-m_slideVelocity, 0));
+			m_horizontalVelocity = -m_slideVelocity;
 		}
 
 		if (m_playerObject.getScale() == m_playerScale)
@@ -47,10 +48,10 @@ float Player::Controls(const sf::Time& delta_time)
 		if (!m_isHittingRightWall)
 		{
 			if (m_slideVelocity <= MAX_HORIZONTAL_VELOCITY)
-				m_slideVelocity += 0.003f;
+				m_slideVelocity += SLIDE_SPEED_CHANGE;
 
-			m_playerObject.move(sf::Vector2f(m_slideVelocity * delta_time.asMilliseconds(), 0));
-			m_horizontalVelocity = m_slideVelocity * delta_time.asMilliseconds();
+			m_playerObject.move(sf::Vector2f(m_slideVelocity, 0));
+			m_horizontalVelocity = m_slideVelocity;
 		}
 
 		if (m_playerObject.getScale() == sf::Vector2f(-m_playerScale.x, m_playerScale.y))
@@ -62,7 +63,7 @@ float Player::Controls(const sf::Time& delta_time)
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && m_isSpaceReleased)
 		{
 			// "launch" player upwards
-			m_verticalVelocity = -3.75f;
+			m_verticalVelocity = -5.25f;
 			m_isTouchingGround = false;
 			m_isSpaceReleased = false;
 		}
@@ -74,19 +75,19 @@ float Player::Controls(const sf::Time& delta_time)
 			m_isIdle = true;
 
 		if (m_slideVelocity > 0.f)
-			m_slideVelocity -= 0.003f;
+			m_slideVelocity -= SLIDE_SPEED_CHANGE;
 		else
 			m_slideVelocity = 0.f;
 
 		if (m_playerObject.getScale() == sf::Vector2f(-m_playerScale.x, m_playerScale.y) && !m_isHittingLeftWall)
 		{
-			m_playerObject.move(sf::Vector2f(-m_slideVelocity * delta_time.asMilliseconds(), 0));
-			m_horizontalVelocity = -m_slideVelocity * delta_time.asMilliseconds();
+			m_playerObject.move(sf::Vector2f(-m_slideVelocity, 0));
+			m_horizontalVelocity = -m_slideVelocity;
 		}
 		else if (m_playerObject.getScale() == sf::Vector2f(m_playerScale.x, m_playerScale.y) && !m_isHittingRightWall)
 		{
-			m_playerObject.move(sf::Vector2f(m_slideVelocity * delta_time.asMilliseconds(), 0));
-			m_horizontalVelocity = m_slideVelocity * delta_time.asMilliseconds();
+			m_playerObject.move(sf::Vector2f(m_slideVelocity, 0));
+			m_horizontalVelocity = m_slideVelocity;
 		}
 	}
 	return m_horizontalVelocity;
@@ -96,19 +97,18 @@ void Player::GotHit()
 {
 	m_healthCooldownClock.restart();
 	m_playerObject.setColor(sf::Color::Red);
-	m_verticalVelocity = -300.f;
+	m_verticalVelocity = -4.f;
 	m_isTouchingGround = false;
 	
 	std::cout << "Player got hit" << std::endl;
 }
 
-void Player::UpdateGravity(const sf::Time& delta_time)
+void Player::UpdateGravity()
 {
 	if (m_isTouchingGround == false)
 	{
-		m_verticalVelocity = m_verticalVelocity + 11.5f * delta_time.asSeconds();
+		m_verticalVelocity = m_verticalVelocity + 0.20f;
 		m_playerObject.move(0, m_verticalVelocity);
-		//std::cout << m_verticalVelocity << std::endl;
 	}
 	else
 		m_verticalVelocity = 0.f;
