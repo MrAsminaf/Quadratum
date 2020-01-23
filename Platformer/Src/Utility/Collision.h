@@ -4,13 +4,14 @@
 #include <unordered_map>
 #include <iostream>
 
+template<typename T1, typename T2>
 class Collision
 {
 public:
 	Collision();
-	Collision(sf::Sprite* sprite, std::unordered_map<sf::Vector2i, sf::FloatRect>* map);
+	Collision(sf::Sprite* sprite, std::unordered_map<sf::Vector2<T1>, sf::Rect<T2>>* map);
 	void AssignSprite(sf::Sprite* sprite);
-	void AssignMap(std::unordered_map<sf::Vector2i, sf::FloatRect>* map);
+	void AssignMap(std::unordered_map<sf::Vector2<T1>, sf::Rect<T2>>* map);
 
 	// Getter functions
 	bool IsTouchingGround()const;

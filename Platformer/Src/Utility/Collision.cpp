@@ -1,6 +1,7 @@
 #include "Collision.h"
 
-Collision::Collision()
+template<typename T1, typename T2>
+Collision<typename T1, typename T2>::Collision()
 	:
 	m_previousIsTouchingGround(false),
 	m_isTouchingGround(false),
@@ -13,40 +14,47 @@ Collision::Collision()
 		std::cout << "NULL m_mapPtr" << std::endl;
 }
 
-//Collision::Collision(sf::Sprite* sprite, std::unordered_map<sf::Vector2i, sf::FloatRect>* map)
-//	:
-//	m_spritePtr(sprite),
-//	m_mapPtr(map)
-//{
-//	Collision();
-//}
+template<typename T1, typename T2>
+Collision<typename T1, typename T2>::Collision(sf::Sprite* sprite, std::unordered_map<sf::Vector2<T1>, sf::Rect<T2>>* map)
+	:
+	m_spritePtr(sprite),
+	m_mapPtr(map)
+{
+	Collision();
+}
 
-void Collision::AssignSprite(sf::Sprite* sprite)
+template<typename T1, typename T2>
+void Collision<typename T1, typename T2>::AssignSprite(sf::Sprite* sprite)
 {
 	m_spritePtr = sprite;
 }
 
-//void Collision::AssignMap(std::unordered_map<sf::Vector2i, sf::FloatRect>* map)
-//{
-//	m_mapPtr = map;
-//}
+template<typename T1, typename T2>
+void Collision<typename T1, typename T2>::AssignMap(std::unordered_map<sf::Vector2<T1>, sf::Rect<T2>>* map)
+{
+	m_mapPtr = map;
+}
 
-bool Collision::IsTouchingGround() const
+template<typename T1, typename T2>
+bool Collision<typename T1, typename T2>::IsTouchingGround() const
 {
 	return m_isTouchingGround;
 }
 
-bool Collision::IsHittingLeftWall() const
+template<typename T1, typename T2>
+bool Collision<typename T1, typename T2>::IsHittingLeftWall() const
 {
 	return m_isHittingLeftWall;
 }
 
-bool Collision::IsHittingRightWall() const
+template<typename T1, typename T2>
+bool Collision<typename T1, typename T2>::IsHittingRightWall() const
 {
 	return m_isHittingRightWall;
 }
 
-void Collision::Check()
+template<typename T1, typename T2>
+void Collision<typename T1, typename T2>::Check()
 {
 	if (m_mapPtr == nullptr)
 	{
@@ -58,11 +66,10 @@ void Collision::Check()
 		std::cout << "m_spritePtr is a nullptr" << std::endl;
 		return;
 	}
-
-
 }
 
-bool Collision::CheckForTouchingGround(int x, int y)
+template<typename T1, typename T2>
+bool Collision<typename T1, typename T2>::CheckForTouchingGround(int x, int y)
 {
 	if (m_mapPtr->count(sf::Vector2i(x, y + 1)))
 	{
@@ -117,4 +124,9 @@ bool Collision::CheckForTouchingGround(int x, int y)
 	{
 		m_isTouchingGround = false;
 	}
+}
+
+void TempFunc()
+{
+	Collision<sf::Vector2i, sf::FloatRect> temoObj;
 }
