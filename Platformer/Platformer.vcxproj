@@ -152,6 +152,7 @@
     <ClCompile Include="Src\GUI\Camera.cpp" />
     <ClCompile Include="Src\Enemies\Enemy.cpp" />
     <ClCompile Include="Src\GUI\DebugButton.cpp" />
+    <ClCompile Include="Src\Utility\Collision.cpp" />
     <ClCompile Include="Src\Window\GameWindow.cpp" />
     <ClCompile Include="Src\Window\Main.cpp" />
     <ClCompile Include="Src\Map\MapFileLoader.cpp" />
@@ -168,6 +169,7 @@
     <ClInclude Include="Src\Texture\BlocksInfo.h" />
     <ClInclude Include="Src\GUI\Camera.h" />
     <ClInclude Include="Src\Enemies\Enemy.h" />
+    <ClInclude Include="Src\Utility\Collision.h" />
     <ClInclude Include="Src\Window\GameWindow.h" />
     <ClInclude Include="Src\Map\MapFileLoader.h" />
     <ClInclude Include="Src\Map\MapRenderer.h" />
