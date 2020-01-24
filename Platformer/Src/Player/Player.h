@@ -34,9 +34,6 @@ private:
 private:
 	sf::RenderWindow* m_mainWindowPtr;
 	sf::Sprite m_playerObject;
-	std::vector<sf::Texture>m_idleTextures;
-	std::vector<sf::Texture>m_runTextures;
-	std::vector<sf::Texture>m_jumpTextures;
 
 	bool m_previousIsTouchingGround;
 	bool m_isTouchingGround;
