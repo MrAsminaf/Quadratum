@@ -66,6 +66,14 @@ void Collision<typename T1, typename T2>::Check()
 		std::cout << "m_spritePtr is a nullptr" << std::endl;
 		return;
 	}
+
+	const auto pos = m_spritePtr->getPosition();
+	const int x = int(pos.x / 16);
+	const int y = int(pos.y / 16);
+
+	CheckForTouchingGround(x, y);
+	CheckForLeftWallCollision(x, y);
+	CheckForRightWallCollision(x, y);
 }
 
 template<typename T1, typename T2>
@@ -78,6 +86,7 @@ bool Collision<typename T1, typename T2>::CheckForTouchingGround(int x, int y)
 			m_isTouchingGround = true;
 			if (m_spritePtr->getPosition().y + 16 > (y + 1) * 16 + 3)
 				m_spritePtr->setPosition(m_spritePtr->getPosition().x, m_spritePtr->getPosition().y - 3);
+			return true;
 		}
 	}
 	else if (m_mapPtr->count(sf::Vector2i(x + 1, y + 1)) && !m_mapPtr->count(sf::Vector2i(x, y + 1)) && m_isTouchingGround && abs(m_spritePtr->getPosition().x - x * 16) > 10)
@@ -85,9 +94,9 @@ bool Collision<typename T1, typename T2>::CheckForTouchingGround(int x, int y)
 		if (m_mapPtr->at(sf::Vector2i(x + 1, y + 1)).intersects(m_spritePtr->getGlobalBounds()))
 		{
 			m_isTouchingGround = true;
-
 			if (m_spritePtr->getPosition().y + 16 > (y + 1) * 16 + 3)
 				m_spritePtr->setPosition(m_spritePtr->getPosition().x, m_spritePtr->getPosition().y - 3);
+			return true;
 		}
 	}
 	else if (m_mapPtr->count(sf::Vector2i(x - 1, y + 1)) && !m_mapPtr->count(sf::Vector2i(x, y + 1)) && m_isTouchingGround && abs((m_spritePtr->getPosition().x + 10) - x * 16) < 16)
@@ -95,9 +104,9 @@ bool Collision<typename T1, typename T2>::CheckForTouchingGround(int x, int y)
 		if (m_mapPtr->at(sf::Vector2i(x - 1, y + 1)).intersects(m_spritePtr->getGlobalBounds()))
 		{
 			m_isTouchingGround = true;
-
 			if (m_spritePtr->getPosition().y + 16 > (y + 1) * 16 + 3)
 				m_spritePtr->setPosition(m_spritePtr->getPosition().x, m_spritePtr->getPosition().y - 3);
+			return true;
 		}
 	}
 	else if (m_mapPtr->count(sf::Vector2i(x + 1, y + 1)) && !m_mapPtr->count(sf::Vector2i(x, y + 1)) && !m_isTouchingGround && abs(m_spritePtr->getPosition().x - x * 16) > 10)
@@ -105,9 +114,9 @@ bool Collision<typename T1, typename T2>::CheckForTouchingGround(int x, int y)
 		if (m_mapPtr->at(sf::Vector2i(x + 1, y + 1)).intersects(m_spritePtr->getGlobalBounds()))
 		{
 			m_isTouchingGround = true;
-
 			if (m_spritePtr->getPosition().y + 16 > (y + 1) * 16 + 3)
 				m_spritePtr->setPosition(m_spritePtr->getPosition().x, m_spritePtr->getPosition().y - 3);
+			return true;
 		}
 	}
 	else if (m_mapPtr->count(sf::Vector2i(x - 1, y + 1)) && !m_mapPtr->count(sf::Vector2i(x, y + 1)) && !m_isTouchingGround && abs((m_spritePtr->getPosition().x + 10) - x * 16) < 16)
@@ -115,14 +124,80 @@ bool Collision<typename T1, typename T2>::CheckForTouchingGround(int x, int y)
 		if (m_mapPtr->at(sf::Vector2i(x - 1, y + 1)).intersects(m_spritePtr->getGlobalBounds()))
 		{
 			m_isTouchingGround = true;
-
 			if (m_spritePtr->getPosition().y + 16 > (y + 1) * 16 + 3)
 				m_spritePtr->setPosition(m_spritePtr->getPosition().x, m_spritePtr->getPosition().y - 3);
+			return true;
 		}
 	}
 	else
 	{
 		m_isTouchingGround = false;
+		return false;
+	}
+}
+
+template<typename T1, typename T2>
+bool Collision<T1, T2>::CheckForLeftWallCollision(int x, int y)
+{
+	if (m_mapPtr->count(sf::Vector2i(x + 1, y)))
+	{
+		if (m_mapPtr->at(sf::Vector2i(x + 1, y)).intersects(m_spritePtr->getGlobalBounds()))
+		{
+			m_isHittingRightWall = true;
+			return true;
+		}
+	}
+	else if (m_mapPtr->count(sf::Vector2i(x + 1, y - 1)))
+	{
+		if (m_mapPtr->at(sf::Vector2i(x + 1, y - 1)).intersects(m_spritePtr->getGlobalBounds()))
+		{
+			m_isHittingRightWall = true;
+			return true;
+		}
+	}
+	else if (m_mapPtr->count(sf::Vector2i(x + 1, y + 1)) && !m_mapPtr->count(sf::Vector2i(x + 1, y)) && !m_isTouchingGround)
+	{
+		if (m_mapPtr->at(sf::Vector2i(x + 1, y + 1)).intersects(m_spritePtr->getGlobalBounds()))
+		{
+			m_isHittingRightWall = true;
+			return true;
+		}
+	}
+	else
+	{
+		m_isHittingRightWall = false;
+		return false;
+	}
+}
+
+template<typename T1, typename T2>
+bool Collision<T1, T2>::CheckForRightWallCollision(int x, int y)
+{
+	if (m_spritePtr->getPosition().x < 0)
+	{
+		m_isHittingLeftWall = true;
+		return true;
+	}
+	else if (m_mapPtr->count(sf::Vector2i(x - 1, y)))
+	{
+		if (m_mapPtr->at(sf::Vector2i(x - 1, y)).intersects(m_spritePtr->getGlobalBounds()))
+		{
+			m_isHittingLeftWall = true;
+			return true;
+		}
+	}
+	else if (m_mapPtr->count(sf::Vector2i(x - 1, y + 1)) && !m_mapPtr->count(sf::Vector2i(x - 1, y)) && !m_isTouchingGround)
+	{
+		if (m_mapPtr->at(sf::Vector2i(x - 1, y + 1)).intersects(m_spritePtr->getGlobalBounds()))
+		{
+			m_isHittingLeftWall = true;
+			return true;
+		}
+	}
+	else
+	{
+		m_isHittingLeftWall = false;
+		return false;
 	}
 }
 
