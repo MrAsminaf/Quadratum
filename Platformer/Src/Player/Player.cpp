@@ -114,56 +114,6 @@ void Player::UpdateGravity()
 		m_verticalVelocity = 0.f;
 }
 
-void Player::Collision(const std::vector<std::string>& map)
-{
-	const int x = int(m_playerObject.getPosition().x) / 16;
-	const int y = int(m_playerObject.getPosition().y) / 16;
-
-	if (map.at(y + 1).at(x) != ' ' ||
-		(map.at(y + 1).at(x + 1) != ' ' && m_playerObject.getPosition().x + 8 > (x + 1) * 16) ||
-		(map.at(y + 1).at(x - 1) != ' ' && m_playerObject.getPosition().x - 8 < x * 16))
-	{
-		if ((y + 1) * 16 <= m_playerObject.getPosition().y + 16)
-		{
-			m_isTouchingGround = true;
-		}
-	}
-	else
-		m_isTouchingGround = false;
-
-
-	if (map.at(y - 1).at(x) != ' ' && m_playerObject.getPosition().y - 8 < ((y - 1) * 16) + 16 ||
-		(map.at(y - 1).at(x) == ' ' && map.at(y - 1).at(x + 1) != ' ' && m_playerObject.getPosition().x + 8 > (x + 1) * 16 && m_playerObject.getPosition().y - 8 < ((y - 1) * 16) + 16) ||
-		(map.at(y - 1).at(x) == ' ' && map.at(y - 1).at(x - 1) != ' ' && m_playerObject.getPosition().x - 8 < ((x - 1) * 16) + 16 && m_playerObject.getPosition().y - 8 < ((y - 1) * 16) + 16))  // hitting ceiling
-	{
-		m_verticalVelocity = -m_verticalVelocity;
-	}
-	
-	if (map.at(y).at(x - 1) != ' ' ||
-		(map.at(y).at(x) == ' ' && map.at(y + 1).at(x) == ' ' && map.at(y + 1).at(x - 1) != ' ' && m_isTouchingGround == false) ||
-		(map.at(y).at(x) == ' ' && map.at(y - 1).at(x) == ' ' && map.at(y).at(x - 1) == ' ' && map.at(y - 1).at(x - 1) != ' '))
-	{
-		if ((x - 1) * 16 >= m_playerObject.getPosition().x - 28)
-		{
-			m_isHittingLeftWall = true;
-		}
-	}
-	else
-		m_isHittingLeftWall = false;
-
-	if (map.at(y).at(x + 1) != ' ' ||
-		(map.at(y).at(x) == ' ' && map.at(y + 1).at(x) == ' ' && map.at(y + 1).at(x + 1) != ' ' && m_isTouchingGround == false) ||
-		(map.at(y).at(x) == ' ' && map.at(y - 1).at(x) == ' ' && map.at(y).at(x + 1) == ' ' && map.at(y - 1).at(x + 1) != ' '))
-	{
-		if ((x + 1) * 16 <= m_playerObject.getPosition().x + 10)
-		{
-			m_isHittingRightWall = true;
-		}
-	}
-	else
-		m_isHittingRightWall = false;
-}
-
 bool Player::IsHitByEnemy(std::vector<Enemy>& enemyContainer)
 {
 	for (auto& enemyObj : enemyContainer)
