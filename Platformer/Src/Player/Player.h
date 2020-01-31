@@ -18,7 +18,7 @@ public:
 	Player(sf::RenderWindow* window_ptr);
 	float Controls();
 	template<typename T1, typename T2>
-	void Update(const std::vector<std::string>& map, const sf::Time& delta_time, std::vector<Enemy>& enemyContainer, 
+	void Update(const sf::Time& delta_time, std::vector<Enemy>& enemyContainer, 
 		std::unordered_map<sf::Vector2<T1>, sf::Rect<T2>>& stdmap);
 	void GotHit();
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
@@ -27,16 +27,12 @@ public:
 private:
 	void LoadTextures();
 	void UpdateGravity();
-	void Collision(const std::vector<std::string>& map);
 	template<typename T1, typename T2>
-	void CollisonV2(std::unordered_map<sf::Vector2<T1>, sf::Rect<T2>>& map);
+	void Collision(std::unordered_map<sf::Vector2<T1>, sf::Rect<T2>>& map);
 	bool IsHitByEnemy(std::vector<Enemy>& enemyContainer);
 private:
 	sf::RenderWindow* m_mainWindowPtr;
 	sf::Sprite m_playerObject;
-	std::vector<sf::Texture>m_idleTextures;
-	std::vector<sf::Texture>m_runTextures;
-	std::vector<sf::Texture>m_jumpTextures;
 
 	bool m_previousIsTouchingGround;
 	bool m_isTouchingGround;
@@ -59,13 +55,12 @@ private:
 };
 
 template<typename T1, typename T2>
-inline void Player::Update(const std::vector<std::string>& map, const sf::Time& delta_time, std::vector<Enemy>& enemyContainer, 
+inline void Player::Update(const sf::Time& delta_time, std::vector<Enemy>& enemyContainer, 
 	std::unordered_map<sf::Vector2<T1>, sf::Rect<T2>>& stdmap)
 {
 	m_previousIsTouchingGround = m_isTouchingGround;
 	UpdateGravity();
-	//Collision(map);
-	CollisonV2(stdmap);
+	Collision(stdmap);
 
 	if (m_isIdle)
 		m_idleAnimation.Play(m_playerObject);
@@ -89,7 +84,7 @@ inline void Player::Update(const std::vector<std::string>& map, const sf::Time& 
 }
 
 template<typename T1, typename T2>
-inline void Player::CollisonV2(std::unordered_map<sf::Vector2<T1>, sf::Rect<T2>>& map)
+inline void Player::Collision(std::unordered_map<sf::Vector2<T1>, sf::Rect<T2>>& map)
 {
 	const auto pos = m_playerObject.getPosition();
 	const int x = int(pos.x / 16);

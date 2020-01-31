@@ -98,6 +98,9 @@
     <ClInclude Include="Src\GUI\DebugButton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Utility\Collision.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Res\tileset.png">
