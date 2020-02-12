@@ -73,7 +73,7 @@ void GameWindow::Input()
 void GameWindow::Update()
 {
 	m_player.Update(m_deltaTime, m_enemiesList, m_mapFileLoader.GetMapForeground());
-	m_background.Update(m_gameWindow, m_player.GetHorizontalVeloity());
+	m_background.Update(m_gameWindow, m_player.GetHorizontalVelocity());
 
 	m_camera.GetView().setCenter(m_player.GetPlayerObject().getPosition().x, 16*15);
 	m_gameWindow.setView(m_camera.GetView());

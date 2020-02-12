@@ -10,7 +10,6 @@ Player::Player(sf::RenderWindow* window_ptr)
 	m_isSpaceReleased			(true),
 	m_verticalVelocity			(0.f),
 	m_horizontalVelocity		(0.f),
-	m_slideVelocity				(0.f),
 	SLIDE_SPEED_CHANGE			(0.2f),
 	MAX_HORIZONTAL_VELOCITY		(2.5f),
 	m_playerScale				(sf::Vector2f(1.5, 1.5)),
@@ -19,12 +18,9 @@ Player::Player(sf::RenderWindow* window_ptr)
 	LoadTextures();
 }
 
-float Player::Controls()
+void Player::Controls()
 {
 	m_isIdle = false;
-	m_horizontalVelocity = 0;
-
-
 	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		m_isSpaceReleased = true;
 
@@ -32,11 +28,14 @@ float Player::Controls()
 	{
 		if (!m_isHittingLeftWall)
 		{
-			if (m_slideVelocity <= MAX_HORIZONTAL_VELOCITY)
-				m_slideVelocity += 0.2f;
+			if (m_horizontalVelocity <= MAX_HORIZONTAL_VELOCITY)
+				m_horizontalVelocity += SLIDE_SPEED_CHANGE;
 
-			m_playerObject.move(sf::Vector2f(-m_slideVelocity, 0));
-			m_horizontalVelocity = -m_slideVelocity;
+			m_playerObject.move(sf::Vector2f(-m_horizontalVelocity, 0));
+		}
+		else
+		{
+			m_horizontalVelocity = 0;
 		}
 
 		if (m_playerObject.getScale() == m_playerScale)
@@ -47,15 +46,23 @@ float Player::Controls()
 	{
 		if (!m_isHittingRightWall)
 		{
-			if (m_slideVelocity <= MAX_HORIZONTAL_VELOCITY)
-				m_slideVelocity += SLIDE_SPEED_CHANGE;
+			if (m_horizontalVelocity <= MAX_HORIZONTAL_VELOCITY)
+				m_horizontalVelocity += SLIDE_SPEED_CHANGE;
 
-			m_playerObject.move(sf::Vector2f(m_slideVelocity, 0));
-			m_horizontalVelocity = m_slideVelocity;
+			m_playerObject.move(sf::Vector2f(m_horizontalVelocity, 0));
+		}
+		else
+		{
+			m_horizontalVelocity = 0;
 		}
 
 		if (m_playerObject.getScale() == sf::Vector2f(-m_playerScale.x, m_playerScale.y))
 			m_playerObject.setScale(m_playerScale);
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	{
+		m_horizontalVelocity = 0;
 	}
 
 	if (m_isTouchingGround)
@@ -74,23 +81,20 @@ float Player::Controls()
 		if (m_isTouchingGround)
 			m_isIdle = true;
 
-		if (m_slideVelocity > 0.f)
-			m_slideVelocity -= SLIDE_SPEED_CHANGE;
+		if (m_horizontalVelocity > 0.f)
+			m_horizontalVelocity -= SLIDE_SPEED_CHANGE;
 		else
-			m_slideVelocity = 0.f;
+			m_horizontalVelocity = 0.f;
 
 		if (m_playerObject.getScale() == sf::Vector2f(-m_playerScale.x, m_playerScale.y) && !m_isHittingLeftWall)
 		{
-			m_playerObject.move(sf::Vector2f(-m_slideVelocity, 0));
-			m_horizontalVelocity = -m_slideVelocity;
+			m_playerObject.move(sf::Vector2f(-m_horizontalVelocity, 0));
 		}
 		else if (m_playerObject.getScale() == sf::Vector2f(m_playerScale.x, m_playerScale.y) && !m_isHittingRightWall)
 		{
-			m_playerObject.move(sf::Vector2f(m_slideVelocity, 0));
-			m_horizontalVelocity = m_slideVelocity;
+			m_playerObject.move(sf::Vector2f(m_horizontalVelocity, 0));
 		}
 	}
-	return m_horizontalVelocity;
 }
 
 void Player::GotHit()
@@ -139,9 +143,12 @@ sf::Sprite & Player::GetPlayerObject()
 	return m_playerObject;
 }
 
-float Player::GetHorizontalVeloity()
+float Player::GetHorizontalVelocity()
 {
-	return m_horizontalVelocity;
+	if (m_playerObject.getScale() == sf::Vector2f(m_playerScale.x, m_playerScale.y))
+		return m_horizontalVelocity;
+	else
+		return -m_horizontalVelocity;
 }
 
 void Player::LoadTextures()
