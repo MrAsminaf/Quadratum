@@ -16,14 +16,14 @@ class Player : public sf::Drawable
 {
 public:
 	Player(sf::RenderWindow* window_ptr);
-	float Controls();
+	void Controls();
 	template<typename T1, typename T2>
 	void Update(const sf::Time& delta_time, std::vector<Enemy>& enemyContainer, 
 		std::unordered_map<sf::Vector2<T1>, sf::Rect<T2>>& stdmap);
 	void GotHit();
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	sf::Sprite& GetPlayerObject();
-	float GetHorizontalVeloity();
+	float GetHorizontalVelocity();
 private:
 	void LoadTextures();
 	void UpdateGravity();
@@ -42,7 +42,6 @@ private:
 	bool m_isSpaceReleased;
 	float m_verticalVelocity;
 	float m_horizontalVelocity;
-	float m_slideVelocity;
 	const float SLIDE_SPEED_CHANGE;
 	const float MAX_HORIZONTAL_VELOCITY;
 	sf::Clock m_healthCooldownClock;
@@ -73,6 +72,9 @@ inline void Player::Update(const sf::Time& delta_time, std::vector<Enemy>& enemy
 		else
 			m_jumpDownAnimation.Play(m_playerObject);
 	}
+
+	if (m_isHittingLeftWall)
+		std::cout << "x" << std::endl;
 
 	if (IsHitByEnemy(enemyContainer) && (m_healthCooldownClock.getElapsedTime().asSeconds() > 2 || m_healthCooldownClock.getElapsedTime().asSeconds() == 0))
 		GotHit();
